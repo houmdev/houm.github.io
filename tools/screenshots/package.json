@@ -1,0 +1,13 @@
+{
+  "name": "houm-site-screenshots",
+  "private": true,
+  "description": "Renders screens.html into the PNGs in assets/screenshots/.",
+  "type": "module",
+  "scripts": {
+    "render": "node render.mjs"
+  },
+  "devDependencies": {
+    "ionicons": "7.4.0",
+    "playwright-core": "1.56.0"
+  }
+}
