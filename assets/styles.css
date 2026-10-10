@@ -70,6 +70,7 @@ a {
 
 img {
   max-width: 100%;
+  height: auto;
 }
 
 .container {
@@ -274,6 +275,7 @@ h1 {
 .phone img {
   display: block;
   width: 100%;
+  height: auto;
   aspect-ratio: 390 / 844;
   border-radius: 35px;
   background: #0e0e10;
@@ -424,6 +426,7 @@ section.alt .card {
 .tv-shot img {
   display: block;
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 9;
   border-radius: 10px;
   background: #0e0e10;
