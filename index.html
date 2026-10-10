@@ -4,21 +4,25 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Houm — Your homelab, in your pocket</title>
-  <meta name="description" content="Houm is a modular iOS and Android app for the whole homelab: control the smart home your phone already belongs to, and keep an eye on the self-hosted services — Plex, Sonarr, Radarr, Proxmox, Unraid, Portainer and more — running behind it." />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%2300a86b%22/><text x=%2250%22 y=%2266%22 font-size=%2258%22 font-family=%22Arial%2C sans-serif%22 font-weight=%22800%22 fill=%22white%22 text-anchor=%22middle%22>H</text></svg>" />
+  <meta name="description" content="Houm is a modular app for iPhone, Android, iPad, Mac, Apple TV and Android TV that brings the smart home and the whole self-hosted stack together: Seerr, Radarr, Sonarr, Lidarr, NZBGet, SABnzbd, Transmission, µTorrent, Plex, Jellyfin, Audiobookshelf, Tautulli, Proxmox, Unraid, Synology, Portainer, Arcane and Grafana." />
+  <meta name="theme-color" content="#0e0e10" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
   <header class="site-header">
     <div class="container">
       <a class="logo" href="./">
-        <span class="logo-mark">H</span>
+        <img src="assets/icon.png" alt="" width="32" height="32" />
         Houm
       </a>
       <nav class="site-nav">
-        <a href="#features">Features</a>
-        <a href="#modules">Modules</a>
-        <a href="privacy-policy">Privacy Policy</a>
+        <a href="#screenshots">Screenshots</a>
+        <a href="#features" class="optional">Features</a>
+        <a href="#services" class="optional">Services</a>
+        <a href="privacy-policy">Privacy</a>
       </nav>
     </div>
   </header>
@@ -26,82 +30,260 @@
   <main>
     <section class="hero">
       <div class="container">
-        <span class="eyebrow">The homelab, in your pocket</span>
-        <h1>One app for the smart home and the self‑hosted stack behind it</h1>
-        <p class="lead">
-          Houm is a modular app for iOS and Android that brings together the smart home
-          your phone already belongs to and the self-hosted services that request, find,
-          fetch and serve your media — all in one place, all switched on only if you run
-          them.
-        </p>
-        <div class="button-row">
-          <a class="btn btn-primary" href="#features">See what's inside</a>
-          <a class="btn btn-secondary" href="privacy-policy">Read our Privacy Policy</a>
+        <div class="hero-copy">
+          <span class="eyebrow">The homelab, in your pocket</span>
+          <h1>One app for the smart home and the self‑hosted stack behind it</h1>
+          <p class="lead">
+            Houm brings together the smart home your phone already belongs to and the
+            servers that request, find, fetch, serve and store your media — Plex,
+            Jellyfin, the *arrs, your downloaders, your NAS and your containers — in one
+            app, with every service switched on only if you run it.
+          </p>
+          <div class="button-row">
+            <a class="btn btn-primary" href="#screenshots">See the app</a>
+            <a class="btn btn-secondary" href="#services">What it supports</a>
+          </div>
+          <p class="platforms">iPhone · Android · iPad · Mac · Apple TV · Android TV</p>
+        </div>
+        <div class="hero-shot">
+          <figure class="phone">
+            <div class="frame">
+              <img src="assets/screenshots/dashboard.png" width="390" height="844" alt="The Houm dashboard: a trending film filling the top of the screen, a shelf of popular films, and cards for what is playing at home and the smart-home devices." />
+            </div>
+          </figure>
         </div>
       </div>
+    </section>
+
+    <section id="screenshots" class="alt">
+      <div class="container">
+        <div class="section-title">
+          <h2>A look inside</h2>
+          <p>A drawer of places down the side, a bar of sections along the bottom, and the artwork running big on a dark page.</p>
+        </div>
+      </div>
+      <div class="gallery" tabindex="0" aria-label="App screenshots">
+        <figure class="phone">
+          <div class="frame"><img src="assets/screenshots/dashboard.png" width="390" height="844" loading="lazy" alt="Dashboard with a trending film, a popular films shelf and home cards." /></div>
+          <figcaption><strong>Dashboard</strong><span>What's trending, then the house — arranged the way you want it.</span></figcaption>
+        </figure>
+        <figure class="phone">
+          <div class="frame"><img src="assets/screenshots/title.png" width="390" height="844" loading="lazy" alt="A film's page with ratings, a Play on Jellyfin button, the synopsis and the cast." /></div>
+          <figcaption><strong>Every title, one page</strong><span>Ratings, cast and one button: Request it, or play it on Jellyfin or Plex.</span></figcaption>
+        </figure>
+        <figure class="phone">
+          <div class="frame"><img src="assets/screenshots/devices.png" width="390" height="844" loading="lazy" alt="Devices screen listing lights, outlets, a lock and a doorbell camera grouped by room." /></div>
+          <figcaption><strong>Devices</strong><span>Apple Home or Google Home, room by room — switch, lock and watch cameras.</span></figcaption>
+        </figure>
+        <figure class="phone">
+          <div class="frame"><img src="assets/screenshots/now-playing.png" width="390" height="844" loading="lazy" alt="Tautulli activity with stream, transcode and bandwidth counts and three streams in progress." /></div>
+          <figcaption><strong>Who's watching</strong><span>Every stream on the server: who, on what, how far in, and how it's playing.</span></figcaption>
+        </figure>
+        <figure class="phone">
+          <div class="frame"><img src="assets/screenshots/downloads.png" width="390" height="844" loading="lazy" alt="NZBGet with live download speed, a speed graph and the download queue." /></div>
+          <figcaption><strong>Downloads</strong><span>Speed, what&#39;s left and the queue — pause, resume and remove from anywhere.</span></figcaption>
+        </figure>
+        <figure class="phone">
+          <div class="frame"><img src="assets/screenshots/server.png" width="390" height="844" loading="lazy" alt="Unraid array status with a capacity gauge and every disk's usage and temperature." /></div>
+          <figcaption><strong>The metal underneath</strong><span>Array, disks, shares, containers and VMs on Unraid, Proxmox and Synology.</span></figcaption>
+        </figure>
+        <figure class="phone">
+          <div class="frame"><img src="assets/screenshots/drawer.png" width="390" height="844" loading="lazy" alt="The navigation drawer listing services grouped as Home, Requests and library, Downloads, Media servers and Infrastructure." /></div>
+          <figcaption><strong>Only what you run</strong><span>Every service is a module; the drawer is exactly the ones you've connected.</span></figcaption>
+        </figure>
+      </div>
+      <p class="gallery-hint">Scroll sideways for more →</p>
     </section>
 
     <section id="features">
       <div class="container">
         <div class="section-title">
           <h2>Every service, in one place</h2>
-          <p>Houm is built out of modules — connect the ones you run, and the app becomes exactly that.</p>
+          <p>Houm is built out of modules. Connect the ones you run, and the app becomes exactly that.</p>
         </div>
         <div class="grid">
           <div class="card">
             <div class="icon">🏠</div>
-            <h3>Devices</h3>
-            <p>Control the smart home your phone already belongs to — Apple Home on iOS, Google Home on Android — and watch a camera's live feed straight from the app.</p>
+            <h3>Smart home</h3>
+            <p class="services-line">Apple Home · Google Home</p>
+            <ul>
+              <li>Every accessory in every home, grouped by room, with live reachability</li>
+              <li>Lights, outlets, switches and fans on and off; doors locked and unlocked</li>
+              <li>Watch a camera or doorbell's live feed full-screen on iPhone</li>
+            </ul>
           </div>
           <div class="card">
             <div class="icon">🎬</div>
-            <h3>Requests</h3>
-            <p>Discover trending movies and shows, request what's missing, and track it through approval — signed in with your Plex account.</p>
-          </div>
-          <div class="card">
-            <div class="icon">📚</div>
-            <h3>Radarr &amp; Sonarr</h3>
-            <p>See your movie and TV library, what's queued and incoming, and search for anything still missing.</p>
+            <h3>Requests &amp; library</h3>
+            <p class="services-line">Seerr · Radarr · Sonarr · Lidarr</p>
+            <ul>
+              <li>Discover trending, popular and upcoming films and shows, by genre, studio or network</li>
+              <li>Request in one tap and follow it through approval; report issues</li>
+              <li>Your libraries, what's queued, history, and a search for anything missing</li>
+            </ul>
           </div>
           <div class="card">
             <div class="icon">📥</div>
-            <h3>NZBGet</h3>
-            <p>Monitor and control your download manager — queue, speed, history and disk space, from your pocket.</p>
+            <h3>Downloads</h3>
+            <p class="services-line">NZBGet · SABnzbd · Transmission · µTorrent</p>
+            <ul>
+              <li>Live speed, what&#39;s left and free disk space — and on SABnzbd, time remaining</li>
+              <li>Pause or resume single items or the whole engine; remove with confirmation</li>
+              <li>History of what finished, and torrents split into Downloading and Seeding</li>
+            </ul>
           </div>
           <div class="card">
             <div class="icon">▶️</div>
-            <h3>Plex &amp; Tautulli</h3>
-            <p>See what's playing right now, who's watching, and stop a stream — plus a home-screen widget that keeps it one glance away.</p>
+            <h3>Media servers</h3>
+            <p class="services-line">Plex · Jellyfin · Audiobookshelf · Tautulli</p>
+            <ul>
+              <li>Watch and listen from your own Plex or Jellyfin, picking up where you left off</li>
+              <li>Audiobooks and podcasts from Audiobookshelf, with how much is left</li>
+              <li>Who's streaming right now — and stop a stream with a message to the viewer</li>
+            </ul>
           </div>
           <div class="card">
             <div class="icon">🖥️</div>
-            <h3>Proxmox, Unraid &amp; Portainer</h3>
-            <p>Watch the servers, storage and containers everything else runs on, and act on them without opening a browser.</p>
+            <h3>Infrastructure</h3>
+            <p class="services-line">Proxmox · Unraid · Synology · Portainer · Arcane</p>
+            <ul>
+              <li>Nodes, VMs and containers across every Proxmox cluster, merged into one screen</li>
+              <li>Unraid and Synology arrays, disks, health and shares</li>
+              <li>Docker containers and stacks on every host — start, stop, restart, read the logs</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="icon">💬</div>
+            <h3>Monitoring &amp; assistants</h3>
+            <p class="services-line">Grafana · Chat · Siri Router</p>
+            <ul>
+              <li>Pull the logs of everything on the rack through the Grafana that fronts them</li>
+              <li>Talk to your household's own bot, under an account of your own</li>
+              <li>Ask the TV out loud — "play the next episode", "find Dune to request"</li>
+            </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="modules" class="countries">
+    <section id="everywhere" class="alt">
       <div class="container">
         <div class="section-title">
-          <h2>Switch on what you run</h2>
-          <p>Every service is a module you turn on or off — what's on decides what the app looks like.</p>
+          <h2>On every screen in the house</h2>
+          <p>The same servers, the same connections — and an interface made for each device rather than the phone's stretched wider.</p>
         </div>
-        <div class="country-list">
+        <figure class="tv-shot">
+          <div class="frame">
+            <img src="assets/screenshots/tv.jpg" width="1280" height="720" loading="lazy" alt="Houm on a television: a film to resume over full-screen artwork, with an Up next row underneath and libraries named along the top." />
+          </div>
+          <figcaption>Houm on Apple TV and Android TV: your libraries by name along the top, built for a remote.</figcaption>
+        </figure>
+        <div class="feature-list">
           <div>
-            Smart home
-            <span>Devices</span>
+            <h3>iPhone &amp; Android</h3>
+            <p>The full app, with a floating bar of sections that gets out of the way as you read.</p>
           </div>
           <div>
-            Media
-            <span>Requests, Radarr, Sonarr, NZBGet, Plex, Tautulli</span>
+            <h3>iPad &amp; Mac</h3>
+            <p>The iPad app runs on Apple silicon Macs in a resizable window; poster walls fill the room.</p>
           </div>
           <div>
-            Infrastructure
-            <span>Proxmox, Unraid, Portainer</span>
+            <h3>Apple TV &amp; Android TV</h3>
+            <p>A lean-back interface of its own for watching from Plex and Jellyfin, with voice via Siri Router.</p>
+          </div>
+          <div>
+            <h3>Home-screen widget</h3>
+            <p>Now Playing on iOS: streams, bandwidth and who's watching, across Plex, Tautulli or Jellyfin.</p>
+          </div>
+          <div>
+            <h3>Settings sync</h3>
+            <p>Add a server on your phone and it's on your iPad — via iCloud on iOS, Backup on Android.</p>
+          </div>
+          <div>
+            <h3>Light &amp; dark</h3>
+            <p>Follows your device's appearance, with no second setting to disagree with it.</p>
+          </div>
+          <div>
+            <h3>Your network, your way</h3>
+            <p>Self-signed certificates, local addresses and Cloudflare Access in front of your services all work.</p>
+          </div>
+          <div>
+            <h3>No Houm account</h3>
+            <p>No sign-up and no Houm server: the app talks straight to the services you connect.</p>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section id="services">
+      <div class="container">
+        <div class="section-title">
+          <h2>What it supports</h2>
+          <p>Every service is a module you switch on or off — what's on decides what the app looks like.</p>
+        </div>
+        <div class="service-groups">
+          <div>
+            <h3>Home</h3>
+            <ul>
+              <li style="--dot:#7fb8bd">Apple Home</li>
+              <li style="--dot:#7fb8bd">Google Home</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Requests &amp; library</h3>
+            <ul>
+              <li style="--dot:#f5a524">Seerr</li>
+              <li style="--dot:#c9b57f">Radarr</li>
+              <li style="--dot:#a99bc4">Sonarr</li>
+              <li style="--dot:#4fc9a5">Lidarr</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Downloads</h3>
+            <ul>
+              <li style="--dot:#86b89a">NZBGet</li>
+              <li style="--dot:#c4b64f">SABnzbd</li>
+              <li style="--dot:#dd85b2">Transmission</li>
+              <li style="--dot:#84c66a">µTorrent</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Media servers</h3>
+            <ul>
+              <li style="--dot:#e5a00d">Plex</li>
+              <li style="--dot:#a86cc4">Jellyfin</li>
+              <li style="--dot:#d0a24e">Audiobookshelf</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Infrastructure</h3>
+            <ul>
+              <li style="--dot:#e58b7f">Proxmox VE</li>
+              <li style="--dot:#f2813f">Unraid</li>
+              <li style="--dot:#5b8fd0">Synology DSM</li>
+              <li style="--dot:#34b5e0">Portainer</li>
+              <li style="--dot:#6c9bd8">Arcane</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Monitoring</h3>
+            <ul>
+              <li style="--dot:#d3a183">Tautulli</li>
+              <li style="--dot:#f98a3b">Grafana</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Assistants</h3>
+            <ul>
+              <li style="--dot:#8b8ff0">Chat</li>
+              <li style="--dot:#a391f7">Siri Router</li>
+            </ul>
+          </div>
+        </div>
+        <p class="fineprint">
+          Screens are shown with sample titles, people and figures. Product names belong to
+          their owners; Houm is an independent client and is not affiliated with any of them.
+        </p>
       </div>
     </section>
   </main>
@@ -111,7 +293,7 @@
       <span>&copy; 2026 Houm. All rights reserved.</span>
       <nav>
         <a href="privacy-policy">Privacy Policy</a>
-        <a href="https://github.com/houm-so">GitHub</a>
+        <a href="https://github.com/houmdev">GitHub</a>
       </nav>
     </div>
   </footer>

@@ -5,9 +5,12 @@ Static site for Houm, published with GitHub Pages: an overview of the app and it
 
 ## Structure
 
-- `index.html` — landing page describing the app, its modules, and its features.
+- `index.html` — landing page: screenshots, features, platforms, and every supported service.
 - `privacy-policy.html` — privacy policy, served at the clean URL `/privacy-policy` (GitHub Pages resolves extensionless paths to their `.html` file).
-- `assets/styles.css` — shared stylesheet for both pages.
+- `assets/styles.css` — shared stylesheet for both pages, in the app's own palette (light and dark).
+- `assets/fonts/` — Manrope and Space Grotesk, the app's typefaces (SIL Open Font License).
+- `assets/screenshots/` — the app screens shown on the landing page.
+- `tools/screenshots/` — the source those screens are rendered from (see below).
 - `.github/workflows/deploy.yml` — GitHub Actions workflow that builds and deploys the site to GitHub Pages on every push to `main`.
 - `.nojekyll` — disables Jekyll processing so the plain HTML/CSS is served as-is.
 
@@ -20,6 +23,22 @@ python3 -m http.server 8000
 ```
 
 Then open `http://localhost:8000`.
+
+## Screenshots
+
+The images in `assets/screenshots/` are rendered from `tools/screenshots/screens.html`,
+which redraws the app's screens from its own design tokens with made-up titles, people
+and figures. To change one, edit that page and re-render (needs Chromium; set
+`CHROMIUM_PATH` if it isn't at the Playwright default):
+
+```sh
+cd tools/screenshots
+npm install
+npm run render
+```
+
+To use real captures instead, overwrite the file of the same name — phones at 390×844
+points (any 2× or 3× PNG of that shape), the television at 16:9 as `tv.jpg`.
 
 ## Deployment
 

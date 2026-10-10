@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Houm screenshot sources</title>
+<!--
+  Source for the images in assets/screenshots/. Each <section class="screen"> is one
+  image; render.mjs captures them by id. The screens are drawn from the app's own
+  tokens (src/theme/index.ts in houmdev/houm): the Ember palette, its radii, Manrope and
+  Space Grotesk, and Ionicons. Every title, person and figure on them is made up.
+-->
+<style>
+  @font-face { font-family: 'Manrope'; font-weight: 400; src: url('../../assets/fonts/Manrope-Regular.ttf'); }
+  @font-face { font-family: 'Manrope'; font-weight: 500; src: url('../../assets/fonts/Manrope-Medium.ttf'); }
+  @font-face { font-family: 'Manrope'; font-weight: 600; src: url('../../assets/fonts/Manrope-SemiBold.ttf'); }
+  @font-face { font-family: 'Manrope'; font-weight: 700; src: url('../../assets/fonts/Manrope-Bold.ttf'); }
+  @font-face { font-family: 'Space Grotesk'; font-weight: 700; src: url('../../assets/fonts/SpaceGrotesk-Bold.ttf'); }
+
+  :root {
+    --bg: #0e0e10; --bg-elevated: #131316; --surface: #17171a; --surface-high: #232327;
+    --line: rgba(245, 244, 242, 0.16); --text: #f5f4f2; --subtext: #b6b3ae; --muted: #8e8c88;
+    --accent: #f5a524; --on-fill: #0e0e10;
+    --green: #86b89a; --yellow: #c9b57f; --peach: #d3a183; --red: #e58b7f; --mauve: #a99bc4; --teal: #7fb8bd;
+    --plex: #e5a00d; --portainer: #34b5e0; --arcane: #6c9bd8; --unraid: #f2813f; --synology: #5b8fd0;
+    --sabnzbd: #c4b64f; --transmission: #dd85b2; --utorrent: #84c66a; --lidarr: #4fc9a5; --grafana: #f98a3b;
+    --jellyfin: #a86cc4; --audiobookshelf: #d0a24e; --chat: #8b8ff0; --siri: #a391f7;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #333; font-family: 'Manrope', sans-serif; color: var(--text); display: flex; flex-wrap: wrap; gap: 24px; padding: 24px; }
+  svg.ic { width: 1em; height: 1em; fill: currentColor; flex: none; display: inline-block; vertical-align: middle; }
+  svg.ic [fill="none"] { fill: none; }
+
+  .screen { width: 390px; height: 844px; background: var(--bg); position: relative; overflow: hidden; font-size: 14px; }
+  .screen.tv { width: 1280px; height: 720px; }
+  .display { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.5px; }
+  .muted { color: var(--muted); }
+  .sub { color: var(--subtext); }
+
+  /* Status bar */
+  .status { position: absolute; top: 0; left: 0; right: 0; height: 50px; display: flex; align-items: center; justify-content: space-between; padding: 14px 30px 0 34px; font-weight: 600; font-size: 16px; z-index: 5; }
+  .status .r { display: flex; gap: 6px; align-items: center; font-size: 16px; }
+  .battery { width: 25px; height: 12px; border: 1.5px solid currentColor; border-radius: 4px; padding: 1.5px; opacity: .95; }
+  .battery i { display: block; height: 100%; width: 78%; background: currentColor; border-radius: 1.5px; }
+
+  /* Page header */
+  .header { padding: 58px 16px 8px; display: flex; align-items: center; gap: 12px; }
+  .header h1 { font-size: 30px; flex: 1; }
+  .round { width: 40px; height: 40px; border-radius: 999px; background: rgba(35, 35, 39, .82); display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--text); flex: none; backdrop-filter: blur(10px); }
+
+  .pad { padding: 0 16px; }
+  .section-head { display: flex; align-items: center; gap: 8px; margin: 22px 16px 12px; font-weight: 700; font-size: 13px; letter-spacing: .8px; text-transform: uppercase; color: var(--subtext); }
+  .section-head::before { content: ''; width: 3px; height: 14px; border-radius: 2px; background: var(--accent); }
+  .section-head .more { margin-left: auto; color: var(--accent); text-transform: none; letter-spacing: .2px; font-size: 13px; }
+
+  .card { background: var(--surface); border-radius: 14px; padding: 14px; }
+  .card + .card { margin-top: 12px; }
+  .card-head { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; font-weight: 600; font-size: 15px; letter-spacing: -.2px; }
+  .card-head .well { width: 26px; height: 26px; border-radius: 10px; background: var(--surface-high); display: flex; align-items: center; justify-content: center; font-size: 15px; color: var(--accent); }
+  .card-head .grow { flex: 1; }
+  .card-head .chev { color: var(--muted); font-size: 16px; }
+
+  .row { display: flex; align-items: center; gap: 12px; }
+  .row + .row { margin-top: 12px; }
+  .grow { flex: 1; min-width: 0; }
+  .t { font-weight: 600; font-size: 14.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .s { color: var(--muted); font-size: 12.5px; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .bar { height: 5px; border-radius: 3px; background: var(--surface-high); overflow: hidden; margin-top: 8px; }
+  .bar i { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
+  .chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 11.5px; letter-spacing: .2px; background: var(--surface-high); color: var(--subtext); }
+  .chip.fill { background: var(--accent); color: var(--on-fill); }
+  .dot { width: 8px; height: 8px; border-radius: 99px; flex: none; }
+
+  .toggle { width: 46px; height: 28px; border-radius: 99px; background: var(--surface-high); position: relative; flex: none; }
+  .toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 99px; background: #6d6b68; }
+  .toggle.on { background: var(--accent); }
+  .toggle.on::after { left: 21px; background: var(--on-fill); }
+
+  .icon-tile { width: 40px; height: 40px; border-radius: 10px; background: var(--surface-high); display: flex; align-items: center; justify-content: center; font-size: 20px; flex: none; }
+
+  /* Floating nav bar */
+  .navbar { position: absolute; left: 14px; right: 14px; bottom: 26px; height: 64px; border-radius: 28px; background: rgba(28, 28, 32, .86); backdrop-filter: blur(16px); border: 1px solid rgba(245,244,242,.08); display: flex; align-items: center; justify-content: space-around; padding: 0 6px; box-shadow: 0 10px 30px rgba(0,0,0,.45); z-index: 6; }
+  .navbar div { display: flex; flex-direction: column; align-items: center; gap: 3px; font-weight: 700; font-size: 10.5px; letter-spacing: .2px; color: var(--muted); flex: 1; }
+  .navbar div svg { font-size: 22px; }
+  .navbar div.on { color: var(--accent); }
+  .home-ind { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 134px; height: 5px; border-radius: 3px; background: rgba(245,244,242,.85); z-index: 7; }
+
+  /* Artwork */
+  .art { position: relative; overflow: hidden; background-size: cover; }
+  .poster { width: 108px; height: 162px; border-radius: 10px; flex: none; }
+  .poster .badge { position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; border-radius: 99px; background: var(--accent); color: var(--on-fill); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+  .poster .badge.have { background: rgba(14,14,16,.8); color: var(--green); }
+  .poster .name { position: absolute; left: 8px; right: 8px; bottom: 8px; font-family: 'Space Grotesk'; font-weight: 700; font-size: 14px; line-height: 1.05; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.85); }
+  .strip { display: flex; gap: 10px; padding: 0 16px; overflow: hidden; }
+  .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,14,16,0) 45%, rgba(14,14,16,.6) 75%, var(--bg) 100%); }
+  .on-art { color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.85); }
+</style>
+</head>
+<body>
+
+<!-- ============================== Dashboard ============================== -->
+<section class="screen" id="dashboard">
+  <div class="status"><span>9:41</span><span class="r" data-statusicons></span></div>
+  <div class="art" data-art="dusk" style="height: 430px;">
+    <div class="shade"></div>
+    <div style="position:absolute; top:56px; left:16px; right:16px; display:flex; gap:10px;">
+      <div class="round"><i data-i="menu"></i></div>
+      <div style="flex:1"></div>
+      <div class="round"><i data-i="options-outline"></i></div>
+      <div class="round"><i data-i="compass-outline"></i></div>
+    </div>
+    <div style="position:absolute; left:16px; right:16px; bottom:30px;" class="on-art">
+      <div style="display:flex; gap:6px; margin-bottom:10px;"><span class="chip fill"><i data-i="star"></i> 8.1</span><span class="chip" style="background:rgba(14,14,16,.6); color:#fff;">Trending · Film</span></div>
+      <div class="display" style="font-size:36px; line-height:1.02;">The Long Low Tide</div>
+      <div style="margin-top:6px; color:rgba(255,255,255,.82); font-size:13.5px;">2026 · Drama · 2h 06m</div>
+      <div style="display:flex; gap:5px; margin-top:14px; justify-content:center;">
+        <i style="width:18px;height:6px;border-radius:3px;background:var(--accent);display:block"></i>
+        <i style="width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.4);display:block"></i>
+        <i style="width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.4);display:block"></i>
+        <i style="width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.4);display:block"></i>
+        <i style="width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.4);display:block"></i>
+      </div>
+    </div>
+  </div>
+  <div class="section-head" style="margin-top:6px;">Popular films <span class="more">See all</span></div>
+  <div class="strip" data-posters="forest:Glasshouse:+,ember:Northbound:have,ocean:Orbit of Ash:+,violet:Paper Lanterns:+"></div>
+  <div class="section-head">At home</div>
+  <div class="pad">
+    <div class="card">
+      <div class="card-head"><span class="well"><i data-i="play-circle"></i></span><span class="grow">Now playing</span><span class="chip">3 streams</span><i class="chev" data-i="chevron-forward"></i></div>
+      <div class="row">
+        <div class="art" data-art="ocean" style="width:64px;height:38px;border-radius:6px;flex:none"></div>
+        <div class="grow"><div class="t">Saltwater Kings · S2 E4</div><div class="s">Maya · Living room TV</div><div class="bar"><i style="width:62%"></i></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head"><span class="well" style="color:var(--teal)"><i data-i="home"></i></span><span class="grow">Devices</span><span class="chip" style="color:var(--green)">All reachable</span><i class="chev" data-i="chevron-forward"></i></div>
+      <div class="row"><span class="icon-tile" style="color:var(--accent)"><i data-i="bulb"></i></span><div class="grow"><div class="t">Ceiling lights</div><div class="s">Living room · On</div></div><span class="toggle on"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== Title page ============================== -->
+<section class="screen" id="title">
+  <div class="status"><span>9:41</span><span class="r" data-statusicons></span></div>
+  <div class="art" data-art="ember" style="height: 360px;">
+    <div class="shade"></div>
+    <div style="position:absolute; top:56px; left:16px; right:16px; display:flex;">
+      <div class="round"><i data-i="chevron-back"></i></div><div style="flex:1"></div><div class="round"><i data-i="share-outline"></i></div>
+    </div>
+  </div>
+  <div class="pad" style="margin-top:-74px; position:relative;">
+    <div class="display" style="font-size:34px; line-height:1.02;">Northbound</div>
+    <div class="sub" style="margin-top:6px; font-size:13.5px;">2026 · Thriller · 2h 14m · PG-13</div>
+    <div style="display:flex; gap:6px; margin-top:12px;">
+      <span class="chip fill"><i data-i="star"></i> 7.8</span>
+      <span class="chip"><span class="dot" style="background:var(--red); width:9px; height:9px"></span> 92%</span>
+      <span class="chip"><span class="dot" style="background:var(--yellow); width:9px; height:9px"></span> 88%</span>
+      <span class="chip">4K · HDR</span>
+    </div>
+    <div style="display:flex; gap:10px; margin-top:18px;">
+      <div style="flex:1; height:48px; border-radius:14px; background:var(--accent); color:var(--on-fill); display:flex; align-items:center; justify-content:center; gap:8px; font-weight:700; font-size:15.5px; letter-spacing:.2px;"><i data-i="play" style="font-size:18px"></i> Play on Jellyfin</div>
+      <div class="round" style="width:48px;height:48px;border-radius:14px;background:var(--surface-high)"><i data-i="flag-outline"></i></div>
+    </div>
+    <p class="sub" style="margin-top:16px; font-size:14px; line-height:1.55;">A long-haul trucker agrees to carry one last load up the coast road before the pass closes for winter — and learns the cargo is not what the manifest says.</p>
+    <div class="section-head" style="margin:20px 0 12px;">Cast</div>
+    <div style="display:flex; gap:14px;" data-cast="Ada Moreno,Tomas Reyes,June Okafor,Lev Antal"></div>
+  </div>
+  <div class="navbar">
+    <div class="on"><i data-i="compass"></i>Discover</div>
+    <div><i data-i="film-outline"></i>Movies</div>
+    <div><i data-i="tv-outline"></i>TV</div>
+    <div><i data-i="calendar-outline"></i>Calendar</div>
+    <div><i data-i="albums-outline"></i>Requests</div>
+  </div>
+  <div class="home-ind"></div>
+</section>
+
+<!-- ============================== Devices ============================== -->
+<section class="screen" id="devices">
+  <div class="status"><span>9:41</span><span class="r" data-statusicons></span></div>
+  <div class="header"><div class="round"><i data-i="menu"></i></div><h1 class="display">Devices</h1></div>
+  <div class="pad sub" style="font-size:13.5px; margin-top:-2px;">Maple Street · Apple Home</div>
+  <div class="section-head">Living room</div>
+  <div class="pad">
+    <div class="card" style="padding:0;">
+      <div data-devices="bulb:Ceiling lights:On · 80%:on:var(--accent);bulb-outline:Floor lamp:Off:off:;tv-outline:TV outlet:On · 42 W:on:var(--accent);thermometer-outline:Thermostat:Heating to 21°:none:var(--peach)"></div>
+    </div>
+  </div>
+  <div class="section-head">Front hall</div>
+  <div class="pad">
+    <div class="card" style="padding:0;">
+      <div data-devices="lock-closed:Front door:Locked:lock:var(--green);videocam-outline:Doorbell:Live view:cam:var(--teal)"></div>
+    </div>
+  </div>
+  <div class="section-head">Kitchen</div>
+  <div class="pad">
+    <div class="card" style="padding:0;">
+      <div data-devices="bulb:Pendants:On · 100%:on:var(--accent);flash-outline:Coffee machine:Off:off:"></div>
+    </div>
+  </div>
+  <div class="home-ind"></div>
+</section>
+
+<!-- ============================== Now playing (Tautulli) ============================== -->
+<section class="screen" id="now-playing">
+  <div class="status"><span>9:41</span><span class="r" data-statusicons></span></div>
+  <div class="header"><div class="round"><i data-i="menu"></i></div><h1 class="display">Tautulli</h1></div>
+  <div class="pad" style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:6px;">
+    <div class="card" style="padding:12px;"><div class="display" style="font-size:26px;">3</div><div class="s" style="font-weight:700; letter-spacing:.2px;">Streams</div></div>
+    <div class="card" style="padding:12px;"><div class="display" style="font-size:26px;">1</div><div class="s" style="font-weight:700; letter-spacing:.2px;">Transcoding</div></div>
+    <div class="card" style="padding:12px;"><div class="display" style="font-size:26px;">31<span style="font-size:15px"> Mb/s</span></div><div class="s" style="font-weight:700; letter-spacing:.2px;">Bandwidth</div></div>
+  </div>
+  <div class="section-head">Playing now</div>
+  <div class="pad" data-streams="
+    ocean|Saltwater Kings|S2 E4 · The Breakwater|Maya|Living room TV · Apple TV|62|Direct play|var(--green);
+    dusk|The Long Low Tide|2026 · Film|Sam|iPad · Houm|18|Transcode 1080p|var(--peach);
+    forest|Glasshouse|2025 · Film|Grandad|Bedroom · Android TV|84|Direct stream|var(--teal)"></div>
+  <div class="navbar">
+    <div class="on"><i data-i="pulse"></i>Activity</div>
+    <div><i data-i="time-outline"></i>History</div>
+    <div><i data-i="library-outline"></i>Libraries</div>
+  </div>
+  <div class="home-ind"></div>
+</section>
+
+<!-- ============================== Downloads (NZBGet) ============================== -->
+<section class="screen" id="downloads">
+  <div class="status"><span>9:41</span><span class="r" data-statusicons></span></div>
+  <div class="header"><div class="round"><i data-i="menu"></i></div><h1 class="display">NZBGet</h1><div class="round"><i data-i="pause"></i></div></div>
+  <div class="pad" style="margin-top:6px;">
+    <div class="card">
+      <div style="display:flex; align-items:flex-end; gap:8px;"><div class="display" style="font-size:40px; line-height:1;">48.6</div><div class="sub" style="font-weight:700; margin-bottom:5px;">MB/s</div><div style="flex:1"></div><span class="chip" style="color:var(--green)"><span class="dot" style="background:var(--green)"></span> Downloading</span></div>
+      <svg viewBox="0 0 330 60" style="width:100%; height:60px; margin-top:10px; display:block;"><defs><linearGradient id="sg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f5a524" stop-opacity=".35"/><stop offset="1" stop-color="#f5a524" stop-opacity="0"/></linearGradient></defs><path d="M0 44 L22 40 L44 42 L66 30 L88 34 L110 22 L132 26 L154 18 L176 24 L198 14 L220 20 L242 12 L264 16 L286 10 L308 14 L330 8 L330 60 L0 60Z" fill="url(#sg)"/><path d="M0 44 L22 40 L44 42 L66 30 L88 34 L110 22 L132 26 L154 18 L176 24 L198 14 L220 20 L242 12 L264 16 L286 10 L308 14 L330 8" fill="none" stroke="#f5a524" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); margin-top:10px; gap:6px;">
+        <div><div class="t">21.3 GB</div><div class="s">Remaining</div></div>
+        <div><div class="t">12d 4h</div><div class="s">Uptime</div></div>
+        <div><div class="t">3.8 TB</div><div class="s">Free disk</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="section-head">Queue · 4</div>
+  <div class="pad" data-queue="
+    Northbound.2026.2160p.UHD.BluRay|Movies · 58.4 GB|71|Downloading;
+    Saltwater.Kings.S02E05.1080p.WEB|TV · 3.1 GB|34|Downloading;
+    Paper.Lanterns.2025.1080p.BluRay|Movies · 14.2 GB|0|Queued;
+    Orbit.of.Ash.S01.1080p.WEB|TV · 22.6 GB|0|Paused"></div>
+  <div class="navbar">
+    <div class="on"><i data-i="cloud-download"></i>Queue</div>
+    <div><i data-i="time-outline"></i>History</div>
+  </div>
+  <div class="home-ind"></div>
+</section>
+
+<!-- ============================== Unraid ============================== -->
+<section class="screen" id="server">
+  <div class="status"><span>9:41</span><span class="r" data-statusicons></span></div>
+  <div class="header"><div class="round"><i data-i="menu"></i></div><h1 class="display">Unraid</h1></div>
+  <div class="pad" style="margin-top:6px;">
+    <div class="card" style="display:flex; align-items:center; gap:16px;">
+      <svg viewBox="0 0 100 100" style="width:104px; height:104px; flex:none;"><circle cx="50" cy="50" r="42" fill="none" stroke="#232327" stroke-width="11"/><circle cx="50" cy="50" r="42" fill="none" stroke="#f5a524" stroke-width="11" stroke-linecap="round" stroke-dasharray="180.5 263.9" transform="rotate(-90 50 50)"/><text x="50" y="49" text-anchor="middle" fill="#f5f4f2" font-family="Space Grotesk" font-weight="700" font-size="22">68%</text><text x="50" y="65" text-anchor="middle" fill="#8e8c88" font-family="Manrope" font-weight="700" font-size="10">used</text></svg>
+      <div class="grow">
+        <div class="t" style="font-size:17px;">tower</div>
+        <div class="s" style="margin-top:3px;"><span style="color:var(--green); font-weight:700;">● Started</span> · up 41 days</div>
+        <div class="s" style="margin-top:8px; color:var(--subtext)">38.2 TB of 56 TB</div>
+        <div class="s">Parity checked 6 days ago</div>
+      </div>
+    </div>
+  </div>
+  <div class="section-head">Disks</div>
+  <div class="pad"><div class="card" data-disks="
+    Parity|16 TB · WDC WD161KFGX|0|34;
+    Disk 1|16 TB · 13.9 TB used|87|35;
+    Disk 2|12 TB · 9.6 TB used|80|33;
+    Disk 3|12 TB · 7.1 TB used|59|36;
+    Disk 4|12 TB · 7.6 TB used|63|34;
+    Cache|2 TB NVMe · 0.8 TB used|40|41"></div></div>
+  <div class="navbar">
+    <div class="on"><i data-i="server"></i>Array</div>
+    <div><i data-i="pulse-outline"></i>Health</div>
+    <div><i data-i="folder-outline"></i>Shares</div>
+    <div><i data-i="cube-outline"></i>Docker</div>
+    <div><i data-i="desktop-outline"></i>VMs</div>
+  </div>
+  <div class="home-ind"></div>
+</section>
+
+<!-- ============================== Drawer ============================== -->
+<section class="screen" id="drawer" style="background:var(--bg-elevated);">
+  <div class="status"><span>9:41</span><span class="r" data-statusicons></span></div>
+  <div style="padding:62px 20px 0;">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+      <img data-logo style="width:32px;height:32px;border-radius:8px;" alt="" />
+      <span style="font-weight:700; font-size:24px; letter-spacing:.2px;">Houm</span>
+    </div>
+    <div data-drawer="
+      :Dashboard:grid:var(--accent):on;
+      Home:Devices:home:var(--teal);
+      Requests and library:Requests:compass:var(--accent),Radarr:film:var(--yellow),Sonarr:tv:var(--mauve),Lidarr:musical-notes:var(--lidarr);
+      Downloads:NZBGet:cloud-download:var(--green),SABnzbd:cloud-download:var(--sabnzbd),Transmission:magnet:var(--transmission);
+      Media servers:Plex:play-circle:var(--plex),Jellyfin:film-outline:var(--jellyfin),Audiobookshelf:headset:var(--audiobookshelf);
+      Infrastructure:Proxmox:server:var(--red),Unraid:hardware-chip:var(--unraid),Portainer:cube:var(--portainer)"></div>
+  </div>
+</section>
+
+<!-- ============================== Television ============================== -->
+<section class="screen tv" id="tv">
+  <div class="art" data-art="violet" style="position:absolute; inset:0;"></div>
+  <div style="position:absolute; inset:0; background:linear-gradient(90deg, rgba(14,14,16,.92) 0%, rgba(14,14,16,.55) 45%, rgba(14,14,16,0) 75%), linear-gradient(180deg, rgba(14,14,16,0) 40%, rgba(14,14,16,.95) 82%);"></div>
+  <div style="position:absolute; top:40px; left:64px; display:flex; gap:34px; align-items:center; font-weight:700; font-size:20px; color:rgba(255,255,255,.62);">
+    <img data-logo style="width:36px;height:36px;border-radius:9px;" alt="" />
+    <span style="color:#fff; background:rgba(245,244,242,.16); padding:8px 18px; border-radius:999px;">Home</span><span>Films</span><span>Shows</span><span>Music</span><span>Audiobooks</span><span>Search</span>
+  </div>
+  <div style="position:absolute; left:64px; top:180px; width:560px;" class="on-art">
+    <div style="display:flex; gap:8px; text-shadow:none;"><span class="chip fill" style="font-size:14px; padding:4px 10px;"><i data-i="star"></i> 8.4</span><span class="chip" style="background:rgba(14,14,16,.6); color:#fff; font-size:14px; padding:4px 10px;">Continue watching</span></div>
+    <div class="display" style="font-size:64px; line-height:1; margin-top:14px;">Paper Lanterns</div>
+    <div style="margin-top:12px; font-size:18px; color:rgba(255,255,255,.82);">2025 · Drama · 1h 52m · 47 minutes left</div>
+    <div style="display:flex; gap:14px; margin-top:24px;">
+      <div style="height:52px; padding:0 26px; border-radius:14px; background:var(--accent); color:var(--on-fill); display:flex; align-items:center; gap:10px; font-weight:700; font-size:18px; box-shadow:0 0 0 4px rgba(245,165,36,.35); text-shadow:none;"><i data-i="play"></i> Resume</div>
+      <div style="height:52px; padding:0 26px; border-radius:14px; background:rgba(245,244,242,.16); color:#fff; display:flex; align-items:center; gap:10px; font-weight:700; font-size:18px; text-shadow:none;"><i data-i="information-circle-outline"></i> Details</div>
+    </div>
+  </div>
+  <div style="position:absolute; left:64px; right:0; bottom:40px;">
+    <div style="font-weight:700; font-size:16px; letter-spacing:.8px; text-transform:uppercase; color:rgba(255,255,255,.75); margin-bottom:14px;">Up next</div>
+    <div style="display:flex; gap:20px;" data-tvrow="ocean:Saltwater Kings:S2 E5:10,ember:Northbound:Film:0,forest:Glasshouse:Film:84,dusk:The Long Low Tide:Film:0,steel:Quiet Hours:S1 E2:30"></div>
+  </div>
+</section>
+
+<script>
+  // Artwork: made-up "film stills" in a handful of graded palettes, so the screens have
+  // the big pictures the app is built around without borrowing anybody's poster.
+  const PALETTES = {
+    dusk:   { sky: ['#1b1440', '#6b2d5c', '#e0794a'], sun: '#ffd08a', hills: ['#2a1633', '#120a1a'] },
+    ember:  { sky: ['#160d08', '#5a2a12', '#d9772b'], sun: '#ffc46b', hills: ['#2a140a', '#0f0805'] },
+    ocean:  { sky: ['#071a26', '#12485e', '#5fa7b0'], sun: '#e8f3ef', hills: ['#0a2a33', '#04141a'] },
+    forest: { sky: ['#0b1a12', '#1f4a33', '#9cc58a'], sun: '#f4f1c9', hills: ['#10261a', '#06120b'] },
+    violet: { sky: ['#120c26', '#3a2470', '#b783d8'], sun: '#ffe1f4', hills: ['#1d1238', '#0b0718'] },
+    steel:  { sky: ['#0f1418', '#33414c', '#9aa9b3'], sun: '#f1f4f6', hills: ['#1a2128', '#0a0d10'] },
+  };
+  function artCss(name, seed = 0) {
+    const p = PALETTES[name] || PALETTES.dusk;
+    const sx = 30 + (seed * 37) % 45, sy = 34 + (seed * 13) % 18;
+    const hills = (c, base, amp, phase) => {
+      let d = `M0 ${base}`;
+      for (let x = 0; x <= 400; x += 25) d += ` L${x} ${base - amp * Math.abs(Math.sin((x + phase) / 60)) - (x % 50 ? 0 : amp / 3)}`;
+      return `<path d='${d} L400 300 L0 300Z' fill='${c}'/>`;
+    };
+    const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300' preserveAspectRatio='none'>${hills(p.hills[0], 220, 46, seed * 40)}${hills(p.hills[1], 262, 34, seed * 70 + 30)}</svg>`;
+    return [
+      `url("data:image/svg+xml,${encodeURIComponent(svg)}") center bottom / 100% 100% no-repeat`,
+      `radial-gradient(circle at ${sx}% ${sy}%, ${p.sun} 0, ${p.sun} 7%, ${p.sun}55 12%, transparent 34%)`,
+      `linear-gradient(180deg, ${p.sky[0]} 0%, ${p.sky[1]} 48%, ${p.sky[2]} 78%)`,
+    ].join(', ');
+  }
+
+  const icon = (name, style = '') => `<i data-i="${name}" style="${style}"></i>`;
+
+  document.querySelectorAll('[data-statusicons]').forEach(el => {
+    el.innerHTML = `${icon('cellular')}${icon('wifi')}<span class="battery"><i></i></span>`;
+  });
+
+  document.querySelectorAll('[data-posters]').forEach(el => {
+    el.innerHTML = el.dataset.posters.split(',').map((p, k) => {
+      const [art, name, badge] = p.split(':');
+      const b = badge === 'have' ? `<span class="badge have">${icon('checkmark')}</span>` : `<span class="badge">${icon('add')}</span>`;
+      return `<div class="art poster" data-art="${art}">${b}<div class="name">${name}</div></div>`;
+    }).join('');
+  });
+
+  document.querySelectorAll('[data-cast]').forEach(el => {
+    const tones = ['ember', 'ocean', 'violet', 'forest'];
+    el.innerHTML = el.dataset.cast.split(',').map((n, k) => `
+      <div style="width:72px; text-align:center;">
+        <div class="art" data-art="${tones[k]}" style="width:64px;height:64px;border-radius:99px;margin:0 auto;"></div>
+        <div style="font-size:12px; font-weight:600; margin-top:6px; line-height:1.2;">${n}</div>
+      </div>`).join('');
+  });
+
+  document.querySelectorAll('[data-devices]').forEach(el => {
+    el.innerHTML = el.dataset.devices.split(';').map((d, k) => {
+      const [ic, name, state, ctl, tone] = d.split(':');
+      const control = ctl === 'on' ? '<span class="toggle on"></span>'
+        : ctl === 'off' ? '<span class="toggle"></span>'
+        : ctl === 'lock' ? `<span class="chip" style="color:var(--green)">${icon('lock-closed')} Locked</span>`
+        : ctl === 'cam' ? `<span class="chip fill">${icon('play')} Watch</span>`
+        : `<span class="chip">21°</span>`;
+      return `<div class="row" style="padding:12px 14px; margin:0; ${k ? 'border-top:1px solid rgba(245,244,242,.07);' : ''}">
+        <span class="icon-tile" style="color:${tone || 'var(--muted)'}">${icon(ic)}</span>
+        <div class="grow"><div class="t">${name}</div><div class="s">${state}</div></div>${control}</div>`;
+    }).join('');
+  });
+
+  document.querySelectorAll('[data-streams]').forEach(el => {
+    el.innerHTML = el.dataset.streams.trim().split(';').map((s, k) => {
+      const [art, title, sub, who, dev, pct, mode, tone] = s.trim().split('|');
+      return `<div class="card" style="padding:0; overflow:hidden;">
+        <div class="art" data-art="${art}" style="height:86px;"><div class="shade"></div>
+          <div class="on-art" style="position:absolute; left:14px; bottom:10px;"><div class="display" style="font-size:20px;">${title}</div><div style="font-size:12.5px; color:rgba(255,255,255,.82)">${sub}</div></div>
+          <span class="chip" style="position:absolute; right:10px; top:10px; background:rgba(14,14,16,.72); color:${tone};">${mode}</span></div>
+        <div style="padding:10px 14px 12px;"><div class="row"><span class="icon-tile" style="width:28px;height:28px;border-radius:99px;font-size:14px;color:var(--subtext)">${icon('person')}</span><div class="grow"><div class="t" style="font-size:13.5px">${who} <span class="muted" style="font-weight:500">· ${dev}</span></div></div><span class="s" style="margin:0">${pct}%</span></div>
+        <div class="bar"><i style="width:${pct}%"></i></div></div></div>`;
+    }).join('');
+  });
+
+  document.querySelectorAll('[data-queue]').forEach(el => {
+    el.innerHTML = '<div class="card" style="padding:0">' + el.dataset.queue.trim().split(';').map((q, k) => {
+      const [name, sub, pct, state] = q.trim().split('|');
+      const tone = state === 'Downloading' ? 'var(--accent)' : state === 'Paused' ? 'var(--peach)' : 'var(--muted)';
+      return `<div style="padding:12px 14px; ${k ? 'border-top:1px solid rgba(245,244,242,.07);' : ''}">
+        <div class="row"><div class="grow"><div class="t" style="font-size:13.5px">${name}</div><div class="s">${sub} · <span style="color:${tone}; font-weight:700">${state}${+pct ? ' ' + pct + '%' : ''}</span></div></div>
+        <span class="round" style="width:32px;height:32px;font-size:15px;background:var(--surface-high)">${icon(state === 'Paused' ? 'play' : 'pause')}</span></div>
+        <div class="bar"><i style="width:${pct}%"></i></div></div>`;
+    }).join('') + '</div>';
+  });
+
+  document.querySelectorAll('[data-disks]').forEach(el => {
+    el.innerHTML = el.dataset.disks.trim().split(';').map((d, k) => {
+      const [name, sub, pct, temp] = d.trim().split('|');
+      return `<div style="${k ? 'margin-top:12px;' : ''}">
+        <div class="row" style="margin:0"><span class="icon-tile" style="width:30px;height:30px;font-size:15px;color:${name === 'Parity' ? 'var(--mauve)' : 'var(--unraid)'}">${icon(name === 'Cache' ? 'flash' : name === 'Parity' ? 'shield-checkmark' : 'disc')}</span>
+        <div class="grow"><div class="t" style="font-size:13.5px">${name}</div><div class="s">${sub}</div></div><span class="chip">${temp}°C</span></div>
+        ${name === 'Parity' ? '' : `<div class="bar" style="margin-left:42px"><i style="width:${pct}%; ${+pct > 85 ? 'background:var(--peach)' : ''}"></i></div>`}</div>`;
+    }).join('');
+  });
+
+  document.querySelectorAll('[data-drawer]').forEach(el => {
+    el.innerHTML = el.dataset.drawer.trim().split(';').map(group => {
+      const [title, ...rest] = group.trim().split(':');
+      const items = rest.join(':').split(',').map(it => {
+        const [name, ic, tone, on] = it.split(':');
+        return `<div class="row" style="margin:2px 0; padding:8px 10px; border-radius:10px; ${on ? 'background:var(--surface-high);' : ''}">
+          <span style="width:30px;height:30px;border-radius:9px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:16px;color:${tone}">${icon(ic)}</span>
+          <span class="t" style="flex:1; ${on ? 'color:var(--accent)' : ''}">${name}</span>${on ? '' : `<span class="dot" style="background:var(--green); width:7px; height:7px"></span>`}</div>`;
+      }).join('');
+      return (title ? `<div style="color:var(--subtext); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; margin:14px 0 4px;">${title}</div>` : '') + items;
+    }).join('');
+  });
+
+  document.querySelectorAll('[data-tvrow]').forEach(el => {
+    el.innerHTML = el.dataset.tvrow.split(',').map((t, k) => {
+      const [art, name, sub, pct] = t.split(':');
+      return `<div style="width:248px; flex:none;">
+        <div class="art" data-art="${art}" style="height:140px; border-radius:14px; ${k === 0 ? 'outline:4px solid var(--accent); outline-offset:3px;' : ''}">
+          ${+pct ? `<div style="position:absolute;left:10px;right:10px;bottom:10px;height:5px;border-radius:3px;background:rgba(255,255,255,.3)"><i style="display:block;height:100%;width:${pct}%;background:var(--accent);border-radius:3px"></i></div>` : ''}</div>
+        <div style="margin-top:10px; font-weight:600; font-size:17px;">${name}</div><div class="muted" style="font-size:14px;">${sub}</div></div>`;
+    }).join('');
+  });
+
+  let seed = 1;
+  document.querySelectorAll('[data-art]').forEach(el => { el.style.background = artCss(el.dataset.art, seed++); });
+
+  document.querySelectorAll('img[data-logo]').forEach(img => { img.src = '../../assets/icon.png'; });
+
+  // Icons are filled in by render.mjs from the ionicons package (window.__ICONS).
+  window.__fillIcons = (icons) => {
+    document.querySelectorAll('i[data-i]').forEach(el => {
+      const svg = icons[el.dataset.i];
+      if (!svg) throw new Error('missing icon ' + el.dataset.i);
+      const span = document.createElement('span');
+      span.innerHTML = svg;
+      const node = span.firstElementChild;
+      node.setAttribute('class', 'ic');
+      node.removeAttribute('width'); node.removeAttribute('height');
+      if (el.getAttribute('style')) node.setAttribute('style', el.getAttribute('style'));
+      if (el.className) node.classList.add(...el.className.split(' '));
+      el.replaceWith(node);
+    });
+  };
+  window.__neededIcons = () => [...new Set([...document.querySelectorAll('i[data-i]')].map(el => el.dataset.i))];
+</script>
+</body>
+</html>
