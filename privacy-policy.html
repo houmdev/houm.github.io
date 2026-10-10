@@ -28,13 +28,15 @@
   <main class="policy">
     <div class="container">
       <h1>Privacy Policy</h1>
-      <p class="updated">Last updated: August 20, 2026</p>
+      <p class="updated">Last updated: October 10, 2026</p>
 
       <p>
         This Privacy Policy explains how the Houm app ("Houm", "we", "us" or "our")
-        handles information. Houm has no backend of its own: it is a client that talks
-        directly from your device to the servers and third-party services you choose to
-        connect — your own smart home, and any self-hosted services you configure. By
+        handles information. Houm has no account system and no server sitting between you
+        and your own: it is a client that talks directly from your device to the servers
+        and third-party services you choose to connect — your own smart home, and any
+        self-hosted services you configure. The few exceptions — settings sync, the
+        film and TV catalogue, update checks and diagnostics — are described below. By
         using the app, you agree to the handling of information as described below.
       </p>
 
@@ -44,84 +46,172 @@
         being treated as a final, binding policy.
       </div>
 
-      <h2>1. There is no Houm account, and no Houm server</h2>
+      <h2>1. There is no Houm account, and no Houm server between you and yours</h2>
       <p>
-        Houm does not ask you to create an account with us, and it does not send your
-        data to any server we operate — because we don't operate one. Every screen in the
-        app is a direct connection from your device to a server you configure: your smart
-        home, or a self-hosted service such as Plex, Tautulli, Radarr, Sonarr, NZBGet,
-        Proxmox, Unraid or Portainer.
+        Houm does not ask you to create an account with us, and it does not route your
+        data through any server we operate. Every screen in the app is a direct connection
+        from your device to a server you configure: your smart home (Devices), or a
+        self-hosted service such as Seerr, Radarr, Sonarr, Lidarr, NZBGet, SABnzbd,
+        Transmission, µTorrent, Plex, Jellyfin, Audiobookshelf, Tautulli, Proxmox, Unraid,
+        Synology DSM, Portainer, Arcane, Grafana, Chat (your household's own bot) or
+        Siri Router. Your connection settings, and what those servers return, never reach
+        us. The only things that leave your device other than through those connections
+        are described in sections 4 to 6: settings sync through your own iCloud or Google
+        account, requests to The Movie Database (TMDB) for the catalogue, and a short
+        check for app updates with diagnostics about whether the app itself is working.
       </p>
 
       <h2>2. Information the app handles</h2>
       <p>We may handle the following categories of information, entirely on your device or in direct connections you set up:</p>
       <ul>
-        <li><strong>Connection settings:</strong> the host, port, credentials and API keys you enter for each service you switch on, stored locally on your device.</li>
-        <li><strong>Smart home data:</strong> the accessories, rooms and cameras in your Apple Home or Google Home, read and controlled through Apple's HomeKit framework or Google's Home APIs SDK, on-device or through Google's consent flow.</li>
-        <li><strong>Plex account information:</strong> when you sign in with Plex, the app exchanges a one-time PIN for a session with plex.tv and your own Plex Media Server, as described in Plex's own privacy policy.</li>
-        <li><strong>Data from your own servers:</strong> whatever your Radarr, Sonarr, NZBGet, Proxmox, Unraid or Portainer instance returns — libraries, queues, streams, containers and the like — displayed in the app and cached on-device so a screen has something to show while it refreshes.</li>
+        <li><strong>Connection settings:</strong> the host, port, credentials, API keys and tokens you enter for each service you switch on — including any Cloudflare Access service token, a Synology device token, a Chat account key and an OpenRouter key for Siri Router — together with which services are switched on and how your home screen and side panel are arranged. These are stored on your device and, if settings sync is on, in your iCloud or Google backup (see section 5).</li>
+        <li><strong>Smart home data:</strong> the accessories, rooms and cameras in your Apple Home or Google Home, read and controlled through Apple's HomeKit framework or Google's Home APIs SDK, on-device or through Google's consent flow. This data is never sent to us or anyone else, and is used only to show and control your home inside the app.</li>
+        <li><strong>Plex account information:</strong> when you sign in with Plex, the app exchanges a one-time PIN for a session with plex.tv and your own Plex Media Server, as described in Plex's own privacy policy. The token that comes back is kept on your device.</li>
+        <li><strong>Jellyfin sign-in:</strong> Jellyfin uses Quick Connect. Your password is entered on your own Jellyfin server's page, never into Houm; only the resulting token is kept. Titles you download for offline playback are stored on that device only.</li>
+        <li><strong>Data from your own servers:</strong> whatever your Seerr, Radarr, Sonarr, Lidarr, NZBGet, SABnzbd, Transmission, µTorrent, Plex, Jellyfin, Audiobookshelf, Tautulli, Proxmox, Unraid, Synology, Portainer, Arcane or Grafana instance returns — libraries, listening progress, queues, streams, drives, containers, logs and the like — displayed in the app and cached on-device so a screen has something to show while it refreshes.</li>
+        <li><strong>Chat messages:</strong> what you type into Chat is sent to the bot you connected it to, which keeps the conversation under your account there for as long as that bot keeps history, and passes it to whichever model and tools its administrator set up.</li>
+        <li><strong>Siri Router requests:</strong> if you connect a Siri Router, what you ask for is sent to that router along with your OpenRouter key and the device's local time and, on a television, the names of its libraries. The router forwards the request to OpenRouter and on to the model you chose; OpenRouter bills your key, and OpenRouter and the model's provider handle the request under their own terms.</li>
+        <li><strong>Catalogue requests:</strong> trending titles, search, artwork and title details are read directly from TMDB (themoviedb.org), whether or not a server is connected. TMDB receives those requests and the IP address they come from.</li>
+        <li><strong>Widget and shared images:</strong> the iOS Now Playing widget reads your Plex, Tautulli or Jellyfin server directly from your device. A screenshot you share to Houm stays on your device and is deleted when you dismiss it.</li>
       </ul>
 
       <h2>3. How this information is used</h2>
       <p>
         Connection settings and cached data are used only to draw the app's screens and to
         send the requests you take — starting a download, requesting a title, switching an
-        accessory, restarting a container. None of it is analyzed, profiled or used for
-        advertising.
+        accessory, restarting a container, asking a question. Diagnostics (section 6) are
+        used only to tell whether a version of the app is working. None of it is analyzed
+        to profile you, combined with data from elsewhere, or used for advertising.
       </p>
 
       <h2>4. How information is shared</h2>
       <p>
-        We do not sell, rent or share your information, because we never receive it. Data
-        only ever travels between your device and the servers you point it at: your smart
-        home, your self-hosted services, and — when you sign in with Plex — plex.tv and
-        your Plex Media Server. The app includes no analytics, advertising or tracking
-        SDKs.
+        We do not sell, rent or share your information. Data travels between your device
+        and the servers you point it at — your smart home, your self-hosted services, the
+        bot behind Chat, a Siri Router and, through it, OpenRouter and your chosen model,
+        and, when you sign in with Plex, plex.tv and your Plex Media Server — and, for
+        the catalogue, TMDB. Beyond those, settings sync stores your settings with Apple
+        or Google under your own account (section 5), and the app's update checks and
+        diagnostics go to our own update server and nowhere else (section 6). The app
+        includes no advertising, no third-party analytics and no tracking SDKs.
       </p>
 
-      <h2>5. Data retention</h2>
+      <h2>5. Settings sync</h2>
       <p>
-        Connection settings and cached data stay on your device until you remove them —
-        by disconnecting a service, signing out, or uninstalling the app. Nothing is
-        retained anywhere else, because nothing is sent anywhere else.
+        So that you don't have to set every device up by hand, Houm syncs its settings to
+        your other devices: through <strong>iCloud's key-value store</strong> on iPhone,
+        iPad, Mac and Apple TV, and through <strong>Android Backup and Restore</strong> on
+        Android. What is synced is which services are switched on, how your home screen
+        and side panel are arranged, and the connection for each service —
+        <strong>including its API keys, tokens and passwords</strong>.
+      </p>
+      <p>
+        Synced settings are held by Apple or Google under your own Apple Account or Google
+        account, and are governed by their privacy policies; we cannot read them. Cached
+        server data, offline downloads, and identifiers that belong to one installation
+        (such as the Plex and Jellyfin device ids) are never synced. On iOS, changes arrive
+        on your other devices while the app is open; on Android, settings come back when
+        the app is restored on a new device or reinstalled, on a schedule Android chooses.
+      </p>
+      <p>
+        Settings sync is on by default and can be switched off at any time in Settings
+        (under Plex Account on a phone or tablet, and under This television on Apple TV).
+        Switching it off stops syncing from that device and deletes what Houm stored in
+        iCloud or in the app's backup.
       </p>
 
-      <h2>6. Your choices</h2>
+      <h2>6. Update checks and diagnostics</h2>
+      <p>
+        <strong>Update checks.</strong> When it launches, Houm may ask our update server
+        whether a newer version of its code is available. That request carries the app's
+        version, platform and release channel, and the IP address any network request
+        carries. It carries no identifier for you, and nothing is kept from it beyond
+        ordinary server logs.
+      </p>
+      <p>
+        <strong>Diagnostics.</strong> Houm sends the same update server a short report on
+        how the app itself is running, using Expo's open-source reporting library
+        (expo-observe) pointed at our own server rather than Expo's. A report contains:
+      </p>
+      <ul>
+        <li>that the app launched, and which release channel it is on;</li>
+        <li>performance timings: how long the app took to start and load, and how long an update took to download;</li>
+        <li>when something goes wrong, the app's own error message, the part of the app's code it came from, and whether it happened while drawing a screen or while running;</li>
+        <li>the app version, device model and operating system version; and</li>
+        <li>a random number generated by the app to tell one installation from another, plus a session identifier.</li>
+      </ul>
+      <p>
+        Reports are not tied to any account or to any identifier the operating system
+        provides, and are never used to track you. They contain nothing about what you
+        watch, listen to, search for, request or download, and nothing Houm has stored is
+        read to build them — not a server address, password, token or key. Because an
+        error message is written by the code that failed, a message may occasionally
+        mention the address a request was trying to reach. Reports are held on the device
+        and sent when the app goes to the background. They go to our own server only, are
+        read for one purpose — keeping the app working — and are never sold or shared.
+      </p>
+      <p>
+        There is no in-app switch for diagnostics. Uninstalling the app stops them and
+        discards the random installation number. Builds that are not configured with an
+        update server make no update checks and send no diagnostics.
+      </p>
+
+      <h2>7. Data retention</h2>
+      <p>
+        Connection settings, cached data and downloads stay on your device until you
+        remove them — by disconnecting a service, signing out, or uninstalling the app.
+        Synced settings stay in iCloud or your Android backup until you switch settings
+        sync off. Chat conversations are kept by your bot, and Siri Router requests are
+        handled by OpenRouter and the model provider, under their own retention rules.
+        Diagnostics are kept on our update server for monitoring app releases and are not
+        used for anything else.
+      </p>
+
+      <h2>8. Your choices</h2>
       <p>
         You control every connection the app makes: switch a service off, edit or clear
-        its connection settings, or sign out of Plex at any time from Settings. Uninstalling
-        the app removes everything it stored locally.
+        its connection settings, or sign out of Plex or Jellyfin at any time from
+        Settings. You can switch settings sync off in Settings, which deletes what was
+        synced. Uninstalling the app removes everything it stored locally and ends
+        diagnostics.
       </p>
 
-      <h2>7. Security</h2>
+      <h2>9. Security</h2>
       <p>
-        Connection credentials are stored on-device using standard platform storage. Where
-        a server you connect to uses HTTPS, the app verifies its certificate by default;
-        an explicit, per-connection switch is available for self-signed certificates on
-        servers you trust, such as ones on your own local network. No method of storage or
-        transmission is completely secure, so we cannot guarantee absolute security.
+        Connection credentials are stored on-device using standard platform storage. If
+        settings sync is on, they are also stored by Apple or Google, encrypted in transit
+        and at rest; a sync store is not a secrets vault, which is why sync can be
+        switched off. Where a server you connect to uses HTTPS, the app verifies its
+        certificate by default; an explicit, per-connection switch is available for
+        self-signed certificates on servers you trust, such as ones on your own local
+        network. Cloudflare Access service tokens are only ever sent over HTTPS. No method
+        of storage or transmission is completely secure, so we cannot guarantee absolute
+        security.
       </p>
 
-      <h2>8. Third-party services</h2>
+      <h2>10. Third-party services</h2>
       <p>
         Signing in with Plex is governed by Plex's own privacy policy and terms. Apple Home
-        and Google Home data is governed by Apple's and Google's respective privacy
-        policies. We encourage you to review those policies for the services you connect.
+        and Google Home data, and settings synced through iCloud or Android Backup and
+        Restore, are governed by Apple's and Google's respective privacy policies.
+        Catalogue requests are governed by TMDB's terms, and Siri Router requests by
+        OpenRouter's and your chosen model provider's. We encourage you to review those
+        policies for the services you connect.
       </p>
 
-      <h2>9. Children's privacy</h2>
+      <h2>11. Children's privacy</h2>
       <p>
         The app is not directed to children, and we do not knowingly collect personal
         information from children under the age of majority in their local jurisdiction.
       </p>
 
-      <h2>10. Changes to this policy</h2>
+      <h2>12. Changes to this policy</h2>
       <p>
         We may update this Privacy Policy from time to time. We will post the updated
         version on this page and revise the "Last updated" date above.
       </p>
 
-      <h2>11. Contact us</h2>
+      <h2>13. Contact us</h2>
       <p>
         If you have questions about this Privacy Policy or how the app handles
         information, contact us at
