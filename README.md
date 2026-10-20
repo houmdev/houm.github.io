@@ -27,8 +27,10 @@ Then open `http://localhost:8000`.
 ## Screenshots
 
 The images in `assets/screenshots/` are rendered from `tools/screenshots/screens.html`,
-which redraws the app's screens from its own design tokens with made-up titles, people
-and figures. To change one, edit that page and re-render (needs Chromium; set
+which redraws the app's screens from its own design tokens with made-up hosts,
+containers, figures and log lines. They show the server-management side of the app —
+the rack, the array, the containers, the logs and the house — and deliberately none of
+the media side. To change one, edit that page and re-render (needs Chromium; set
 `CHROMIUM_PATH` if it isn't at the Playwright default):
 
 ```sh
@@ -38,7 +40,7 @@ npm run render
 ```
 
 To use real captures instead, overwrite the file of the same name — phones at 390×844
-points (any 2× or 3× PNG of that shape), the television at 16:9 as `tv.jpg`.
+points (any 2× or 3× PNG of that shape).
 
 ## Deployment
 

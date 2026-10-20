@@ -48,7 +48,7 @@
         <div class="hero-shot">
           <figure class="phone">
             <div class="frame">
-              <img src="assets/screenshots/dashboard.png" width="390" height="844" alt="The Houm dashboard: a trending film filling the top of the screen, a shelf of popular films, and cards for what is playing at home and the smart-home devices." />
+              <img src="assets/screenshots/dashboard.png" width="390" height="844" alt="The Houm dashboard: cards for the Proxmox rack with each node's CPU and memory, the Unraid array and how full it is, the containers Portainer fronts, and the errors and warnings in Grafana's logs." />
             </div>
           </figure>
         </div>
@@ -59,36 +59,36 @@
       <div class="container">
         <div class="section-title">
           <h2>A look inside</h2>
-          <p>A drawer of places down the side, a bar of sections along the bottom, and the artwork running big on a dark page.</p>
+          <p>A drawer of places down the side, a bar of sections along the bottom, and the rack's own figures on a dark page.</p>
         </div>
       </div>
       <div class="gallery" tabindex="0" aria-label="App screenshots">
         <figure class="phone">
-          <div class="frame"><img src="assets/screenshots/dashboard.png" width="390" height="844" loading="lazy" alt="Dashboard with a trending film, a popular films shelf and home cards." /></div>
-          <figcaption><strong>Dashboard</strong><span>What's trending, then the house — arranged the way you want it.</span></figcaption>
+          <div class="frame"><img src="assets/screenshots/dashboard.png" width="390" height="844" loading="lazy" alt="Dashboard with cards for the Proxmox rack, the Unraid array, Portainer's containers and Grafana's logs." /></div>
+          <figcaption><strong>Dashboard</strong><span>The rack, the array, the containers and the logs — arranged the way you want it.</span></figcaption>
         </figure>
         <figure class="phone">
-          <div class="frame"><img src="assets/screenshots/title.png" width="390" height="844" loading="lazy" alt="A film's page with ratings, a Play on Jellyfin button, the synopsis and the cast." /></div>
-          <figcaption><strong>Every title, one page</strong><span>Ratings, cast and one button: Request it, or play it on Jellyfin or Plex.</span></figcaption>
+          <div class="frame"><img src="assets/screenshots/proxmox.png" width="390" height="844" loading="lazy" alt="Proxmox with nodes online, running and stopped counts, and a card per node with CPU, memory and root disk gauges and Logs, Reboot and Shut down buttons." /></div>
+          <figcaption><strong>The rack</strong><span>Every Proxmox node with its gauges, every VM and container with its verbs.</span></figcaption>
         </figure>
         <figure class="phone">
           <div class="frame"><img src="assets/screenshots/devices.png" width="390" height="844" loading="lazy" alt="Devices screen listing lights, outlets, a lock and a doorbell camera grouped by room." /></div>
           <figcaption><strong>Devices</strong><span>Apple Home or Google Home, room by room — switch, lock and watch cameras.</span></figcaption>
         </figure>
         <figure class="phone">
-          <div class="frame"><img src="assets/screenshots/now-playing.png" width="390" height="844" loading="lazy" alt="Tautulli activity with stream, transcode and bandwidth counts and three streams in progress." /></div>
-          <figcaption><strong>Who's watching</strong><span>Every stream on the server: who, on what, how far in, and how it's playing.</span></figcaption>
+          <div class="frame"><img src="assets/screenshots/containers.png" width="390" height="844" loading="lazy" alt="Portainer with running, stopped, unhealthy and image counts and a list of containers, each with its image, uptime and state." /></div>
+          <figcaption><strong>Containers</strong><span>Every container on every host — start, stop, restart and read the logs.</span></figcaption>
         </figure>
         <figure class="phone">
-          <div class="frame"><img src="assets/screenshots/downloads.png" width="390" height="844" loading="lazy" alt="NZBGet with live download speed, a speed graph and the download queue." /></div>
-          <figcaption><strong>Downloads</strong><span>Speed, what&#39;s left and the queue — pause, resume and remove from anywhere.</span></figcaption>
+          <div class="frame"><img src="assets/screenshots/grafana.png" width="390" height="844" loading="lazy" alt="Grafana logs with line, error and warning counts, a graph of volume over the last hour, and the newest log lines by service." /></div>
+          <figcaption><strong>What the rack is saying</strong><span>Logs from every service, through the Grafana that fronts them — searched and narrowed by stream.</span></figcaption>
         </figure>
         <figure class="phone">
           <div class="frame"><img src="assets/screenshots/server.png" width="390" height="844" loading="lazy" alt="Unraid array status with a capacity gauge and every disk's usage and temperature." /></div>
           <figcaption><strong>The metal underneath</strong><span>Array, disks, shares, containers and VMs on Unraid, Proxmox and Synology.</span></figcaption>
         </figure>
         <figure class="phone">
-          <div class="frame"><img src="assets/screenshots/drawer.png" width="390" height="844" loading="lazy" alt="The navigation drawer listing services grouped as Home, Requests and library, Downloads, Media servers and Infrastructure." /></div>
+          <div class="frame"><img src="assets/screenshots/drawer.png" width="390" height="844" loading="lazy" alt="The navigation drawer listing services grouped as Home, Infrastructure and Monitoring." /></div>
           <figcaption><strong>Only what you run</strong><span>Every service is a module; the drawer is exactly the ones you've connected.</span></figcaption>
         </figure>
       </div>
@@ -172,12 +172,6 @@
           <h2>On every screen in the house</h2>
           <p>The same servers, the same connections — and an interface made for each device rather than the phone's stretched wider.</p>
         </div>
-        <figure class="tv-shot">
-          <div class="frame">
-            <img src="assets/screenshots/tv.jpg" width="1280" height="720" loading="lazy" alt="Houm on a television: a film to resume over full-screen artwork, with an Up next row underneath and libraries named along the top." />
-          </div>
-          <figcaption>Houm on Apple TV and Android TV: your libraries by name along the top, built for a remote.</figcaption>
-        </figure>
         <div class="feature-list">
           <div>
             <h3>iPhone &amp; Android</h3>
@@ -281,7 +275,7 @@
           </div>
         </div>
         <p class="fineprint">
-          Screens are shown with sample titles, people and figures. Product names belong to
+          Screens are shown with sample hosts, containers, figures and log lines. Product names belong to
           their owners; Houm is an independent client and is not affiliated with any of them.
         </p>
       </div>

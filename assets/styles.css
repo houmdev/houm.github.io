@@ -411,34 +411,6 @@ section.alt .card {
 }
 
 /* Everywhere */
-.tv-shot {
-  margin: 0 auto 40px;
-  max-width: 960px;
-}
-
-.tv-shot .frame {
-  border-radius: 18px;
-  padding: 10px 10px 14px;
-  background: var(--frame);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
-}
-
-.tv-shot img {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  border-radius: 10px;
-  background: #0e0e10;
-}
-
-.tv-shot figcaption {
-  text-align: center;
-  color: var(--color-text-muted);
-  font-size: 0.92rem;
-  margin-top: 14px;
-}
-
 .feature-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));

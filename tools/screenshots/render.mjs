@@ -1,5 +1,4 @@
-// Renders each <section class="screen"> in screens.html to assets/screenshots/: phones as
-// PNG, the television (all artwork, edge to edge) as JPEG to keep it a sensible size.
+// Renders each <section class="screen"> in screens.html to assets/screenshots/ as PNG.
 //
 //   cd tools/screenshots && npm install && npm run render
 //
@@ -43,8 +42,8 @@ await page.evaluate((icons) => window.__fillIcons(icons), icons);
 await page.evaluate(() => document.fonts.ready);
 
 for (const id of await page.$$eval('section.screen', (els) => els.map((el) => el.id))) {
-  const file = id === 'tv' ? `${id}.jpg` : `${id}.png`;
-  await page.locator(`#${id}`).screenshot({ path: join(out, file), ...(id === 'tv' ? { quality: 88 } : {}) });
+  const file = `${id}.png`;
+  await page.locator(`#${id}`).screenshot({ path: join(out, file) });
   console.log(`assets/screenshots/${file}`);
 }
 
