@@ -7,7 +7,12 @@
   Source for the images in assets/screenshots/. Each <section class="screen"> is one
   image; render.mjs captures them by id. The screens are drawn from the app's own
   tokens (src/theme/index.ts in houmdev/houm): the Ember palette, its radii, Manrope and
-  Space Grotesk, and Ionicons. Every title, person and figure on them is made up.
+  Space Grotesk, and Ionicons. Every host, container, figure and log line on them is
+  made up.
+
+  The screens show the server-management side of the app — the rack, the array, the
+  containers, the logs and the house — and nothing from the media side: no catalogue,
+  no titles, no artwork, no downloader queue.
 -->
 <style>
   @font-face { font-family: 'Manrope'; font-weight: 400; src: url('../../assets/fonts/Manrope-Regular.ttf'); }
@@ -21,17 +26,16 @@
     --line: rgba(245, 244, 242, 0.16); --text: #f5f4f2; --subtext: #b6b3ae; --muted: #8e8c88;
     --accent: #f5a524; --on-fill: #0e0e10;
     --green: #86b89a; --yellow: #c9b57f; --peach: #d3a183; --red: #e58b7f; --mauve: #a99bc4; --teal: #7fb8bd;
-    --plex: #e5a00d; --portainer: #34b5e0; --arcane: #6c9bd8; --unraid: #f2813f; --synology: #5b8fd0;
-    --sabnzbd: #c4b64f; --transmission: #dd85b2; --utorrent: #84c66a; --lidarr: #4fc9a5; --grafana: #f98a3b;
-    --jellyfin: #a86cc4; --audiobookshelf: #d0a24e; --chat: #8b8ff0; --siri: #a391f7;
+    --portainer: #34b5e0; --arcane: #6c9bd8; --unraid: #f2813f; --synology: #5b8fd0; --grafana: #f98a3b;
+    --mono: 'Menlo', 'DejaVu Sans Mono', 'Liberation Mono', monospace;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: #333; font-family: 'Manrope', sans-serif; color: var(--text); display: flex; flex-wrap: wrap; gap: 24px; padding: 24px; }
   svg.ic { width: 1em; height: 1em; fill: currentColor; flex: none; display: inline-block; vertical-align: middle; }
   svg.ic [fill="none"] { fill: none; }
 
-  .screen { width: 390px; height: 844px; background: var(--bg); position: relative; overflow: hidden; font-size: 14px; }
-  .screen.tv { width: 1280px; height: 720px; }
+  /* The screen's size in points; render.mjs sets both for each target it renders. */
+  .screen { width: var(--screen-w, 390px); height: var(--screen-h, 844px); background: var(--bg); position: relative; overflow: hidden; font-size: 14px; }
   .display { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -0.5px; }
   .muted { color: var(--muted); }
   .sub { color: var(--subtext); }
@@ -42,14 +46,23 @@
   .battery { width: 25px; height: 12px; border: 1.5px solid currentColor; border-radius: 4px; padding: 1.5px; opacity: .95; }
   .battery i { display: block; height: 100%; width: 78%; background: currentColor; border-radius: 1.5px; }
 
+  /* The Android set: the system's own status bar and gesture bar instead of the iPhone's. */
+  .android .status { height: 40px; padding: 10px 18px 0 22px; font-size: 14px; font-weight: 500; }
+  .android .status .r { font-size: 14px; gap: 5px; }
+  .android .battery { width: 11px; height: 18px; border-width: 1.5px; border-radius: 2.5px; padding: 1px; display: flex; align-items: flex-end; }
+  .android .battery i { width: 100%; height: 78%; }
+  .android .home-ind { width: 108px; height: 3px; bottom: 9px; opacity: .7; }
+
   /* Page header */
   .header { padding: 58px 16px 8px; display: flex; align-items: center; gap: 12px; }
   .header h1 { font-size: 30px; flex: 1; }
   .round { width: 40px; height: 40px; border-radius: 999px; background: rgba(35, 35, 39, .82); display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--text); flex: none; backdrop-filter: blur(10px); }
+  .subtitle { padding: 0 16px; color: var(--subtext); font-size: 13.5px; margin-top: -2px; }
 
   .pad { padding: 0 16px; }
   .section-head { display: flex; align-items: center; gap: 8px; margin: 22px 16px 12px; font-weight: 700; font-size: 13px; letter-spacing: .8px; text-transform: uppercase; color: var(--subtext); }
   .section-head::before { content: ''; width: 3px; height: 14px; border-radius: 2px; background: var(--accent); }
+  .section-head .detail { color: var(--muted); text-transform: none; letter-spacing: .2px; font-weight: 600; }
   .section-head .more { margin-left: auto; color: var(--accent); text-transform: none; letter-spacing: .2px; font-size: 13px; }
 
   .card { background: var(--surface); border-radius: 14px; padding: 14px; }
@@ -67,7 +80,7 @@
 
   .bar { height: 5px; border-radius: 3px; background: var(--surface-high); overflow: hidden; margin-top: 8px; }
   .bar i { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
-  .chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 11.5px; letter-spacing: .2px; background: var(--surface-high); color: var(--subtext); }
+  .chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 11.5px; letter-spacing: .2px; background: var(--surface-high); color: var(--subtext); white-space: nowrap; }
   .chip.fill { background: var(--accent); color: var(--on-fill); }
   .dot { width: 8px; height: 8px; border-radius: 99px; flex: none; }
 
@@ -77,6 +90,36 @@
   .toggle.on::after { left: 21px; background: var(--on-fill); }
 
   .icon-tile { width: 40px; height: 40px; border-radius: 10px; background: var(--surface-high); display: flex; align-items: center; justify-content: center; font-size: 20px; flex: none; }
+  .tile { width: 30px; height: 30px; border-radius: 9px; background: var(--surface-high); display: flex; align-items: center; justify-content: center; font-size: 15px; flex: none; }
+
+  /* Headline counts: one plate each across the top of a service's pane. */
+  .stats { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 10px; }
+  .stat { background: var(--surface); border-radius: 14px; padding: 12px; min-width: 0; }
+  .stat .v { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -.5px; font-size: 26px; line-height: 30px; white-space: nowrap; }
+  .stat .v small { font-size: 15px; }
+  .stat .l { color: var(--muted); font-weight: 700; font-size: 12.5px; letter-spacing: .2px; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .stats.four .stat { padding: 10px; }
+  .stats.four .stat .v { font-size: 24px; }
+  .stats.four .stat .l { font-size: 11px; }
+
+  /* A dashboard card's row of figures: one column each inside a shared card. */
+  .tiles { display: flex; gap: 8px; }
+  .tiles > div { flex: 1; }
+  .tiles .v { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: -.5px; font-size: 22px; line-height: 26px; }
+  .tiles .l { color: var(--muted); font-weight: 700; font-size: 11px; letter-spacing: .2px; margin-top: 1px; }
+
+  /* A usage bar: what it measures, how much of what, and the bar under both. */
+  .ubar { margin-top: 8px; }
+  .ubar .lbl { display: flex; justify-content: space-between; font-size: 12px; color: var(--subtext); font-weight: 600; }
+  .ubar .lbl span:last-child { color: var(--muted); font-weight: 500; }
+  .ubar .bar { margin-top: 5px; }
+
+  .seg { display: flex; background: var(--surface); border-radius: 14px; padding: 3px; }
+  .seg div { flex: 1; text-align: center; padding: 8px 10px; border-radius: 10px; font-weight: 700; font-size: 13px; color: var(--muted); }
+  .seg div.on { background: var(--surface-high); color: var(--text); }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; height: 32px; padding: 0 14px; border-radius: 10px; font-weight: 700; font-size: 13px; background: var(--surface-high); color: var(--text); }
+  .btn.danger { background: rgba(229, 139, 127, .16); color: var(--red); }
 
   /* Floating nav bar */
   .navbar { position: absolute; left: 14px; right: 14px; bottom: 26px; height: 64px; border-radius: 28px; background: rgba(28, 28, 32, .86); backdrop-filter: blur(16px); border: 1px solid rgba(245,244,242,.08); display: flex; align-items: center; justify-content: space-around; padding: 0 6px; box-shadow: 0 10px 30px rgba(0,0,0,.45); z-index: 6; }
@@ -85,15 +128,16 @@
   .navbar div.on { color: var(--accent); }
   .home-ind { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 134px; height: 5px; border-radius: 3px; background: rgba(245,244,242,.85); z-index: 7; }
 
-  /* Artwork */
-  .art { position: relative; overflow: hidden; background-size: cover; }
-  .poster { width: 108px; height: 162px; border-radius: 10px; flex: none; }
-  .poster .badge { position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; border-radius: 99px; background: var(--accent); color: var(--on-fill); display: flex; align-items: center; justify-content: center; font-size: 14px; }
-  .poster .badge.have { background: rgba(14,14,16,.8); color: var(--green); }
-  .poster .name { position: absolute; left: 8px; right: 8px; bottom: 8px; font-family: 'Space Grotesk'; font-weight: 700; font-size: 14px; line-height: 1.05; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.85); }
-  .strip { display: flex; gap: 10px; padding: 0 16px; overflow: hidden; }
-  .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(14,14,16,0) 45%, rgba(14,14,16,.6) 75%, var(--bg) 100%); }
-  .on-art { color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.85); }
+  /* Logs */
+  .search { margin: 6px 16px 12px; display: flex; align-items: center; gap: 8px; height: 42px; padding: 0 14px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); color: var(--muted); font-size: 15px; }
+  .gchips { display: flex; gap: 8px; padding: 0 16px; margin-bottom: 12px; }
+  .gchip { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 999px; background: var(--surface-high); color: var(--text); font-weight: 600; font-size: 13px; }
+  .log { background: var(--surface); border-radius: 10px; border-left: 2px solid var(--accent); padding: 8px 8px 8px 12px; margin-bottom: 8px; }
+  .log .meta { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+  .log .time { color: var(--muted); font-family: var(--mono); font-weight: 700; font-size: 11px; }
+  .log .lvl { font-weight: 700; font-size: 9px; letter-spacing: .4px; }
+  .log .stream { flex: 1; text-align: right; color: var(--subtext); font-weight: 600; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .log .line { font-family: var(--mono); font-size: 12px; line-height: 17px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; word-break: break-word; }
 </style>
 </head>
 <body>
@@ -101,77 +145,72 @@
 <!-- ============================== Dashboard ============================== -->
 <section class="screen" id="dashboard">
   <div class="status"><span>9:41</span><span class="r" data-statusicons></span></div>
-  <div class="art" data-art="dusk" style="height: 430px;">
-    <div class="shade"></div>
-    <div style="position:absolute; top:56px; left:16px; right:16px; display:flex; gap:10px;">
-      <div class="round"><i data-i="menu"></i></div>
-      <div style="flex:1"></div>
-      <div class="round"><i data-i="options-outline"></i></div>
-      <div class="round"><i data-i="compass-outline"></i></div>
+  <div class="header"><div class="round"><i data-i="menu"></i></div><h1 class="display">Dashboard</h1><div class="round"><i data-i="options-outline"></i></div></div>
+
+  <div class="section-head" style="margin-top:10px;">Rack <span class="more">Proxmox</span></div>
+  <div class="pad"><div class="card" data-nodes="
+    pve-1|7/8 guests running|23|8 cores|64|41.0 GB of 64 GB;
+    pve-2|4/4 guests running|58|4 cores|82|26.3 GB of 32 GB"></div></div>
+
+  <div class="section-head">Array <span class="more">Unraid</span></div>
+  <div class="pad">
+    <div class="card">
+      <div class="row" style="margin:0;"><div class="t grow" style="font-size:14px;">tower</div><span style="border:1px solid var(--green); color:var(--green); border-radius:6px; padding:2px 6px; font-size:9px; font-weight:700; letter-spacing:.4px;">STARTED</span></div>
+      <div class="ubar"><div class="lbl"><span>Array</span><span>17.8 TB free</span></div><div class="bar"><i style="width:68%"></i></div></div>
+      <div class="s" style="margin-top:9px; color:var(--subtext);">6 disks · 24 containers running · 2 VMs running</div>
     </div>
-    <div style="position:absolute; left:16px; right:16px; bottom:30px;" class="on-art">
-      <div style="display:flex; gap:6px; margin-bottom:10px;"><span class="chip fill"><i data-i="star"></i> 8.1</span><span class="chip" style="background:rgba(14,14,16,.6); color:#fff;">Trending · Film</span></div>
-      <div class="display" style="font-size:36px; line-height:1.02;">The Long Low Tide</div>
-      <div style="margin-top:6px; color:rgba(255,255,255,.82); font-size:13.5px;">2026 · Drama · 2h 06m</div>
-      <div style="display:flex; gap:5px; margin-top:14px; justify-content:center;">
-        <i style="width:18px;height:6px;border-radius:3px;background:var(--accent);display:block"></i>
-        <i style="width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.4);display:block"></i>
-        <i style="width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.4);display:block"></i>
-        <i style="width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.4);display:block"></i>
-        <i style="width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.4);display:block"></i>
+  </div>
+
+  <div class="section-head">Containers <span class="more">Portainer</span></div>
+  <div class="pad">
+    <div class="card">
+      <div class="tiles">
+        <div><div class="v" style="color:var(--green)">31</div><div class="l">Running</div></div>
+        <div><div class="v">3</div><div class="l">Stopped</div></div>
+        <div><div class="v" style="color:var(--peach)">1</div><div class="l">Unhealthy</div></div>
+      </div>
+      <div style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(245,244,242,.07);">
+        <div class="row" style="margin:0;"><span class="dot" style="background:var(--green)"></span><span class="t grow" style="font-size:14px;">docker-01</span><span class="s" style="margin:0;">22/24 running</span></div>
+        <div class="row" style="margin-top:10px;"><span class="dot" style="background:var(--green)"></span><span class="t grow" style="font-size:14px;">nas</span><span class="s" style="margin:0;">9/10 running</span></div>
       </div>
     </div>
   </div>
-  <div class="section-head" style="margin-top:6px;">Popular films <span class="more">See all</span></div>
-  <div class="strip" data-posters="forest:Glasshouse:+,ember:Northbound:have,ocean:Orbit of Ash:+,violet:Paper Lanterns:+"></div>
-  <div class="section-head">At home</div>
+
+  <div class="section-head">Logs <span class="detail">loki</span><span class="more">Grafana</span></div>
   <div class="pad">
     <div class="card">
-      <div class="card-head"><span class="well"><i data-i="play-circle"></i></span><span class="grow">Now playing</span><span class="chip">3 streams</span><i class="chev" data-i="chevron-forward"></i></div>
-      <div class="row">
-        <div class="art" data-art="ocean" style="width:64px;height:38px;border-radius:6px;flex:none"></div>
-        <div class="grow"><div class="t">Saltwater Kings · S2 E4</div><div class="s">Maya · Living room TV</div><div class="bar"><i style="width:62%"></i></div></div>
+      <div class="tiles">
+        <div><div class="v" style="color:var(--red)">2</div><div class="l">Errors</div></div>
+        <div><div class="v" style="color:var(--yellow)">7</div><div class="l">Warnings</div></div>
+        <div><div class="v">15m</div><div class="l">Window</div></div>
       </div>
-    </div>
-    <div class="card">
-      <div class="card-head"><span class="well" style="color:var(--teal)"><i data-i="home"></i></span><span class="grow">Devices</span><span class="chip" style="color:var(--green)">All reachable</span><i class="chev" data-i="chevron-forward"></i></div>
-      <div class="row"><span class="icon-tile" style="color:var(--accent)"><i data-i="bulb"></i></span><div class="grow"><div class="t">Ceiling lights</div><div class="s">Living room · On</div></div><span class="toggle on"></span></div>
+      <div style="margin-top:14px;" data-logs="
+        21:14:07|error|uptime-kuma|Monitor &quot;Backups&quot; is DOWN: timeout of 48000ms exceeded;
+        21:13:52|warn|postgres|checkpoints are occurring too frequently (14 seconds apart)"></div>
     </div>
   </div>
 </section>
 
-<!-- ============================== Title page ============================== -->
-<section class="screen" id="title">
+<!-- ============================== Proxmox ============================== -->
+<section class="screen" id="proxmox">
   <div class="status"><span>9:41</span><span class="r" data-statusicons></span></div>
-  <div class="art" data-art="ember" style="height: 360px;">
-    <div class="shade"></div>
-    <div style="position:absolute; top:56px; left:16px; right:16px; display:flex;">
-      <div class="round"><i data-i="chevron-back"></i></div><div style="flex:1"></div><div class="round"><i data-i="share-outline"></i></div>
+  <div class="header"><div class="round"><i data-i="menu"></i></div><h1 class="display">Proxmox</h1></div>
+  <div class="subtitle">Nodes and storage</div>
+  <div class="pad" style="margin-top:14px;">
+    <div class="stats">
+      <div class="stat"><div class="v">2/2</div><div class="l">Nodes online</div></div>
+      <div class="stat"><div class="v" style="color:var(--green)">11</div><div class="l">Running</div></div>
+      <div class="stat"><div class="v">2</div><div class="l">Stopped</div></div>
     </div>
   </div>
-  <div class="pad" style="margin-top:-74px; position:relative;">
-    <div class="display" style="font-size:34px; line-height:1.02;">Northbound</div>
-    <div class="sub" style="margin-top:6px; font-size:13.5px;">2026 · Thriller · 2h 14m · PG-13</div>
-    <div style="display:flex; gap:6px; margin-top:12px;">
-      <span class="chip fill"><i data-i="star"></i> 7.8</span>
-      <span class="chip"><span class="dot" style="background:var(--red); width:9px; height:9px"></span> 92%</span>
-      <span class="chip"><span class="dot" style="background:var(--yellow); width:9px; height:9px"></span> 88%</span>
-      <span class="chip">4K · HDR</span>
-    </div>
-    <div style="display:flex; gap:10px; margin-top:18px;">
-      <div style="flex:1; height:48px; border-radius:14px; background:var(--accent); color:var(--on-fill); display:flex; align-items:center; justify-content:center; gap:8px; font-weight:700; font-size:15.5px; letter-spacing:.2px;"><i data-i="play" style="font-size:18px"></i> Play on Jellyfin</div>
-      <div class="round" style="width:48px;height:48px;border-radius:14px;background:var(--surface-high)"><i data-i="flag-outline"></i></div>
-    </div>
-    <p class="sub" style="margin-top:16px; font-size:14px; line-height:1.55;">A long-haul trucker agrees to carry one last load up the coast road before the pass closes for winter — and learns the cargo is not what the manifest says.</p>
-    <div class="section-head" style="margin:20px 0 12px;">Cast</div>
-    <div style="display:flex; gap:14px;" data-cast="Ada Moreno,Tomas Reyes,June Okafor,Lev Antal"></div>
-  </div>
+  <div class="pad" style="margin-top:16px;" data-nodecards="
+    pve-1|up 41 days|7 of 8 guests running · Proxmox 8.3|23|8 cores|64|41.0 GB of 64 GB|37|35 GB of 94 GB;
+    pve-2|up 12 days|4 of 4 guests running · Proxmox 8.3|58|4 cores|82|26.3 GB of 32 GB|21|20 GB of 94 GB"></div>
   <div class="navbar">
-    <div class="on"><i data-i="compass"></i>Discover</div>
-    <div><i data-i="film-outline"></i>Movies</div>
-    <div><i data-i="tv-outline"></i>TV</div>
-    <div><i data-i="calendar-outline"></i>Calendar</div>
-    <div><i data-i="albums-outline"></i>Requests</div>
+    <div class="on"><i data-i="server"></i>Nodes</div>
+    <div><i data-i="cube-outline"></i>Guests</div>
+    <div><i data-i="hardware-chip-outline"></i>Health</div>
+    <div><i data-i="list-outline"></i>Tasks</div>
   </div>
   <div class="home-ind"></div>
 </section>
@@ -202,52 +241,68 @@
   <div class="home-ind"></div>
 </section>
 
-<!-- ============================== Now playing (Tautulli) ============================== -->
-<section class="screen" id="now-playing">
+<!-- ============================== Containers (Portainer) ============================== -->
+<section class="screen" id="containers">
   <div class="status"><span>9:41</span><span class="r" data-statusicons></span></div>
-  <div class="header"><div class="round"><i data-i="menu"></i></div><h1 class="display">Tautulli</h1></div>
-  <div class="pad" style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:6px;">
-    <div class="card" style="padding:12px;"><div class="display" style="font-size:26px;">3</div><div class="s" style="font-weight:700; letter-spacing:.2px;">Streams</div></div>
-    <div class="card" style="padding:12px;"><div class="display" style="font-size:26px;">1</div><div class="s" style="font-weight:700; letter-spacing:.2px;">Transcoding</div></div>
-    <div class="card" style="padding:12px;"><div class="display" style="font-size:26px;">31<span style="font-size:15px"> Mb/s</span></div><div class="s" style="font-weight:700; letter-spacing:.2px;">Bandwidth</div></div>
+  <div class="header"><div class="round"><i data-i="menu"></i></div><h1 class="display">Portainer</h1></div>
+  <div class="subtitle">Everything running on them</div>
+  <div class="pad" style="margin-top:14px;">
+    <div class="stats four">
+      <div class="stat"><div class="v" style="color:var(--green)">31</div><div class="l">Running</div></div>
+      <div class="stat"><div class="v">3</div><div class="l">Stopped</div></div>
+      <div class="stat"><div class="v" style="color:var(--red)">1</div><div class="l">Unhealthy</div></div>
+      <div class="stat"><div class="v">48</div><div class="l">Images</div></div>
+    </div>
+    <div class="seg" style="margin-top:16px;"><div class="on">All</div><div>Running</div><div>Stopped</div></div>
   </div>
-  <div class="section-head">Playing now</div>
-  <div class="pad" data-streams="
-    ocean|Saltwater Kings|S2 E4 · The Breakwater|Maya|Living room TV · Apple TV|62|Direct play|var(--green);
-    dusk|The Long Low Tide|2026 · Film|Sam|iPad · Houm|18|Transcode 1080p|var(--peach);
-    forest|Glasshouse|2025 · Film|Grandad|Bedroom · Android TV|84|Direct stream|var(--teal)"></div>
+  <div class="section-head" style="margin-top:18px;">Containers <span class="detail">34</span></div>
+  <div class="pad"><div class="card" style="padding:4px 14px;" data-containers="
+    traefik|traefik:v3.3 · Up 41 days|Running|var(--green);
+    home-assistant|home-assistant:2026.9 · Up 6 days|Running|var(--green);
+    nextcloud|nextcloud:31 · Up 41 days|Running|var(--green);
+    postgres|postgres:17 · Up 41 days|Running|var(--green);
+    uptime-kuma|uptime-kuma:2 · Up 3 days|Unhealthy|var(--red);
+    pihole|pihole:2026.07 · Up 41 days|Running|var(--green);
+    gitea|gitea:1.24 · Exited 3 days ago|Exited|var(--muted);
+    vaultwarden|vaultwarden:1.34 · Up 2 hours|Running|var(--green);
+    minio|minio:latest · Up 41 days|Running|var(--green)"></div></div>
   <div class="navbar">
-    <div class="on"><i data-i="pulse"></i>Activity</div>
-    <div><i data-i="time-outline"></i>History</div>
-    <div><i data-i="library-outline"></i>Libraries</div>
+    <div><i data-i="server-outline"></i>Hosts</div>
+    <div class="on"><i data-i="cube"></i>Containers</div>
+    <div><i data-i="layers-outline"></i>Stacks</div>
   </div>
   <div class="home-ind"></div>
 </section>
 
-<!-- ============================== Downloads (NZBGet) ============================== -->
-<section class="screen" id="downloads">
+<!-- ============================== Logs (Grafana) ============================== -->
+<section class="screen" id="grafana">
   <div class="status"><span>9:41</span><span class="r" data-statusicons></span></div>
-  <div class="header"><div class="round"><i data-i="menu"></i></div><h1 class="display">NZBGet</h1><div class="round"><i data-i="pause"></i></div></div>
-  <div class="pad" style="margin-top:6px;">
-    <div class="card">
-      <div style="display:flex; align-items:flex-end; gap:8px;"><div class="display" style="font-size:40px; line-height:1;">48.6</div><div class="sub" style="font-weight:700; margin-bottom:5px;">MB/s</div><div style="flex:1"></div><span class="chip" style="color:var(--green)"><span class="dot" style="background:var(--green)"></span> Downloading</span></div>
-      <svg viewBox="0 0 330 60" style="width:100%; height:60px; margin-top:10px; display:block;"><defs><linearGradient id="sg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f5a524" stop-opacity=".35"/><stop offset="1" stop-color="#f5a524" stop-opacity="0"/></linearGradient></defs><path d="M0 44 L22 40 L44 42 L66 30 L88 34 L110 22 L132 26 L154 18 L176 24 L198 14 L220 20 L242 12 L264 16 L286 10 L308 14 L330 8 L330 60 L0 60Z" fill="url(#sg)"/><path d="M0 44 L22 40 L44 42 L66 30 L88 34 L110 22 L132 26 L154 18 L176 24 L198 14 L220 20 L242 12 L264 16 L286 10 L308 14 L330 8" fill="none" stroke="#f5a524" stroke-width="2.5" stroke-linejoin="round"/></svg>
-      <div style="display:grid; grid-template-columns:repeat(3,1fr); margin-top:10px; gap:6px;">
-        <div><div class="t">21.3 GB</div><div class="s">Remaining</div></div>
-        <div><div class="t">12d 4h</div><div class="s">Uptime</div></div>
-        <div><div class="t">3.8 TB</div><div class="s">Free disk</div></div>
-      </div>
+  <div class="header"><div class="round"><i data-i="menu"></i></div><h1 class="display">Grafana</h1></div>
+  <div class="subtitle">What the rack is saying</div>
+  <div class="search"><i data-i="search" style="font-size:16px"></i>Search these logs</div>
+  <div class="gchips"><span class="gchip"><i data-i="pricetags-outline" style="font-size:15px"></i>All streams</span><span class="gchip"><i data-i="time-outline" style="font-size:15px"></i>Last hour</span></div>
+  <div class="pad">
+    <div class="stats">
+      <div class="stat"><div class="v">1,284</div><div class="l">Lines</div></div>
+      <div class="stat"><div class="v" style="color:var(--red)">3</div><div class="l">Errors</div></div>
+      <div class="stat"><div class="v" style="color:var(--peach)">12</div><div class="l">Warnings</div></div>
+    </div>
+    <div class="card" style="margin-top:10px; padding:12px 14px;">
+      <div class="s" style="font-weight:700; margin:0 0 8px;">Lines over the last hour</div>
+      <svg viewBox="0 0 330 48" style="width:100%; height:48px; display:block;"><defs><linearGradient id="lg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f98a3b" stop-opacity=".35"/><stop offset="1" stop-color="#f98a3b" stop-opacity="0"/></linearGradient></defs><path d="M0 30 L11 28 L22 32 L33 26 L44 29 L55 24 L66 27 L77 22 L88 25 L99 30 L110 20 L121 23 L132 14 L143 18 L154 8 L165 12 L176 16 L187 11 L198 19 L209 22 L220 18 L231 24 L242 21 L253 26 L264 23 L275 28 L286 25 L297 30 L308 27 L319 31 L330 29 L330 48 L0 48Z" fill="url(#lg)"/><path d="M0 30 L11 28 L22 32 L33 26 L44 29 L55 24 L66 27 L77 22 L88 25 L99 30 L110 20 L121 23 L132 14 L143 18 L154 8 L165 12 L176 16 L187 11 L198 19 L209 22 L220 18 L231 24 L242 21 L253 26 L264 23 L275 28 L286 25 L297 30 L308 27 L319 31 L330 29" fill="none" stroke="#f98a3b" stroke-width="2.5" stroke-linejoin="round"/></svg>
     </div>
   </div>
-  <div class="section-head">Queue · 4</div>
-  <div class="pad" data-queue="
-    Northbound.2026.2160p.UHD.BluRay|Movies · 58.4 GB|71|Downloading;
-    Saltwater.Kings.S02E05.1080p.WEB|TV · 3.1 GB|34|Downloading;
-    Paper.Lanterns.2025.1080p.BluRay|Movies · 14.2 GB|0|Queued;
-    Orbit.of.Ash.S01.1080p.WEB|TV · 22.6 GB|0|Paused"></div>
+  <div class="section-head" style="margin-top:18px;">Lines <span class="detail">Newest first</span></div>
+  <div class="pad" data-logs="
+    21:14:07|error|traefik|level=error msg=&quot;dial tcp 172.18.0.9:9000: connect: connection refused&quot; router=nextcloud@docker;
+    21:13:52|warn|postgres|LOG:  checkpoints are occurring too frequently (14 seconds apart);
+    21:13:40|info|home-assistant|Setup of domain zha took 2.1 seconds;
+    21:13:21|error|uptime-kuma|Monitor &quot;Backups&quot; is DOWN: timeout of 48000ms exceeded;
+    21:12:58|info|traefik|Certificate obtained for domains [nas.home.arpa]"></div>
   <div class="navbar">
-    <div class="on"><i data-i="cloud-download"></i>Queue</div>
-    <div><i data-i="time-outline"></i>History</div>
+    <div class="on"><i data-i="reader"></i>Logs</div>
+    <div><i data-i="compass-outline"></i>Explore</div>
+    <div><i data-i="server-outline"></i>Sources</div>
   </div>
   <div class="home-ind"></div>
 </section>
@@ -295,85 +350,88 @@
     </div>
     <div data-drawer="
       :Dashboard:grid:var(--accent):on;
-      Home:Devices:home:var(--teal);
-      Requests and library:Requests:compass:var(--accent),Radarr:film:var(--yellow),Sonarr:tv:var(--mauve),Lidarr:musical-notes:var(--lidarr);
-      Downloads:NZBGet:cloud-download:var(--green),SABnzbd:cloud-download:var(--sabnzbd),Transmission:magnet:var(--transmission);
-      Media servers:Plex:play-circle:var(--plex),Jellyfin:film-outline:var(--jellyfin),Audiobookshelf:headset:var(--audiobookshelf);
-      Infrastructure:Proxmox:server:var(--red),Unraid:hardware-chip:var(--unraid),Portainer:cube:var(--portainer)"></div>
+      Home:Devices:bulb:var(--teal);
+      Infrastructure:Proxmox:server:var(--red),Unraid:albums:var(--unraid),Synology:file-tray-stacked:var(--synology),Portainer:cube:var(--portainer),Arcane:layers:var(--arcane);
+      Monitoring:Grafana:reader:var(--grafana)"></div>
   </div>
-</section>
-
-<!-- ============================== Television ============================== -->
-<section class="screen tv" id="tv">
-  <div class="art" data-art="violet" style="position:absolute; inset:0;"></div>
-  <div style="position:absolute; inset:0; background:linear-gradient(90deg, rgba(14,14,16,.92) 0%, rgba(14,14,16,.55) 45%, rgba(14,14,16,0) 75%), linear-gradient(180deg, rgba(14,14,16,0) 40%, rgba(14,14,16,.95) 82%);"></div>
-  <div style="position:absolute; top:40px; left:64px; display:flex; gap:34px; align-items:center; font-weight:700; font-size:20px; color:rgba(255,255,255,.62);">
-    <img data-logo style="width:36px;height:36px;border-radius:9px;" alt="" />
-    <span style="color:#fff; background:rgba(245,244,242,.16); padding:8px 18px; border-radius:999px;">Home</span><span>Films</span><span>Shows</span><span>Music</span><span>Audiobooks</span><span>Search</span>
-  </div>
-  <div style="position:absolute; left:64px; top:180px; width:560px;" class="on-art">
-    <div style="display:flex; gap:8px; text-shadow:none;"><span class="chip fill" style="font-size:14px; padding:4px 10px;"><i data-i="star"></i> 8.4</span><span class="chip" style="background:rgba(14,14,16,.6); color:#fff; font-size:14px; padding:4px 10px;">Continue watching</span></div>
-    <div class="display" style="font-size:64px; line-height:1; margin-top:14px;">Paper Lanterns</div>
-    <div style="margin-top:12px; font-size:18px; color:rgba(255,255,255,.82);">2025 · Drama · 1h 52m · 47 minutes left</div>
-    <div style="display:flex; gap:14px; margin-top:24px;">
-      <div style="height:52px; padding:0 26px; border-radius:14px; background:var(--accent); color:var(--on-fill); display:flex; align-items:center; gap:10px; font-weight:700; font-size:18px; box-shadow:0 0 0 4px rgba(245,165,36,.35); text-shadow:none;"><i data-i="play"></i> Resume</div>
-      <div style="height:52px; padding:0 26px; border-radius:14px; background:rgba(245,244,242,.16); color:#fff; display:flex; align-items:center; gap:10px; font-weight:700; font-size:18px; text-shadow:none;"><i data-i="information-circle-outline"></i> Details</div>
+  <div style="position:absolute; left:20px; right:20px; bottom:34px; padding-top:12px; border-top:1px solid rgba(245,244,242,.08);">
+    <div class="row" style="margin:0; padding:8px 10px;">
+      <span style="width:30px;height:30px;border-radius:9px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--subtext)"><i data-i="settings"></i></span>
+      <div class="grow"><div class="t">Settings</div><div class="s">Switches, connections and app info</div></div>
     </div>
-  </div>
-  <div style="position:absolute; left:64px; right:0; bottom:40px;">
-    <div style="font-weight:700; font-size:16px; letter-spacing:.8px; text-transform:uppercase; color:rgba(255,255,255,.75); margin-bottom:14px;">Up next</div>
-    <div style="display:flex; gap:20px;" data-tvrow="ocean:Saltwater Kings:S2 E5:10,ember:Northbound:Film:0,forest:Glasshouse:Film:84,dusk:The Long Low Tide:Film:0,steel:Quiet Hours:S1 E2:30"></div>
   </div>
 </section>
 
 <script>
-  // Artwork: made-up "film stills" in a handful of graded palettes, so the screens have
-  // the big pictures the app is built around without borrowing anybody's poster.
-  const PALETTES = {
-    dusk:   { sky: ['#1b1440', '#6b2d5c', '#e0794a'], sun: '#ffd08a', hills: ['#2a1633', '#120a1a'] },
-    ember:  { sky: ['#160d08', '#5a2a12', '#d9772b'], sun: '#ffc46b', hills: ['#2a140a', '#0f0805'] },
-    ocean:  { sky: ['#071a26', '#12485e', '#5fa7b0'], sun: '#e8f3ef', hills: ['#0a2a33', '#04141a'] },
-    forest: { sky: ['#0b1a12', '#1f4a33', '#9cc58a'], sun: '#f4f1c9', hills: ['#10261a', '#06120b'] },
-    violet: { sky: ['#120c26', '#3a2470', '#b783d8'], sun: '#ffe1f4', hills: ['#1d1238', '#0b0718'] },
-    steel:  { sky: ['#0f1418', '#33414c', '#9aa9b3'], sun: '#f1f4f6', hills: ['#1a2128', '#0a0d10'] },
-  };
-  function artCss(name, seed = 0) {
-    const p = PALETTES[name] || PALETTES.dusk;
-    const sx = 30 + (seed * 37) % 45, sy = 34 + (seed * 13) % 18;
-    const hills = (c, base, amp, phase) => {
-      let d = `M0 ${base}`;
-      for (let x = 0; x <= 400; x += 25) d += ` L${x} ${base - amp * Math.abs(Math.sin((x + phase) / 60)) - (x % 50 ? 0 : amp / 3)}`;
-      return `<path d='${d} L400 300 L0 300Z' fill='${c}'/>`;
-    };
-    const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300' preserveAspectRatio='none'>${hills(p.hills[0], 220, 46, seed * 40)}${hills(p.hills[1], 262, 34, seed * 70 + 30)}</svg>`;
-    return [
-      `url("data:image/svg+xml,${encodeURIComponent(svg)}") center bottom / 100% 100% no-repeat`,
-      `radial-gradient(circle at ${sx}% ${sy}%, ${p.sun} 0, ${p.sun} 7%, ${p.sun}55 12%, transparent 34%)`,
-      `linear-gradient(180deg, ${p.sky[0]} 0%, ${p.sky[1]} 48%, ${p.sky[2]} 78%)`,
-    ].join(', ');
+  const icon = (name, style = '') => `<i data-i="${name}" style="${style}"></i>`;
+
+  /** A bar's colour the way src/lib/usage.ts colours one: the accent until it is nearly full. */
+  const usageColor = (pct) => (pct >= 90 ? 'var(--red)' : pct >= 75 ? 'var(--peach)' : 'var(--accent)');
+
+  /** A ring gauge as the app's RingGauge draws one: the figure in the hole, the arc coloured by how full. */
+  function ring(pct, size = 76, stroke = 8) {
+    const r = size / 2 - stroke / 2;
+    const c = 2 * Math.PI * r;
+    const color = usageColor(pct) === 'var(--accent)' ? '#f5a524' : usageColor(pct) === 'var(--peach)' ? '#d3a183' : '#e58b7f';
+    return `<svg viewBox="0 0 ${size} ${size}" style="width:${size}px; height:${size}px; display:block; margin:0 auto;">
+      <circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="#232327" stroke-width="${stroke}"/>
+      <circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${color}" stroke-width="${stroke}" stroke-linecap="round" stroke-dasharray="${(c * pct) / 100} ${c}" transform="rotate(-90 ${size / 2} ${size / 2})"/>
+      <text x="${size / 2}" y="${size / 2 + 6}" text-anchor="middle" fill="#f5f4f2" font-family="Space Grotesk" font-weight="700" font-size="17" letter-spacing="-0.5">${pct}%</text>
+    </svg>`;
   }
 
-  const icon = (name, style = '') => `<i data-i="${name}" style="${style}"></i>`;
+  const ubar = (label, detail, pct) =>
+    `<div class="ubar"><div class="lbl"><span>${label}</span><span>${detail}</span></div><div class="bar"><i style="width:${pct}%; background:${usageColor(pct)}"></i></div></div>`;
 
   document.querySelectorAll('[data-statusicons]').forEach(el => {
     el.innerHTML = `${icon('cellular')}${icon('wifi')}<span class="battery"><i></i></span>`;
   });
 
-  document.querySelectorAll('[data-posters]').forEach(el => {
-    el.innerHTML = el.dataset.posters.split(',').map((p, k) => {
-      const [art, name, badge] = p.split(':');
-      const b = badge === 'have' ? `<span class="badge have">${icon('checkmark')}</span>` : `<span class="badge">${icon('add')}</span>`;
-      return `<div class="art poster" data-art="${art}">${b}<div class="name">${name}</div></div>`;
+  // The dashboard's Rack card: a line per node with its two gauges, as RackModule draws it.
+  document.querySelectorAll('[data-nodes]').forEach(el => {
+    el.innerHTML = el.dataset.nodes.trim().split(';').map((n, k) => {
+      const [name, guests, cpu, cores, mem, memDetail] = n.trim().split('|');
+      return `<div style="${k ? 'margin-top:12px; padding-top:12px; border-top:1px solid rgba(245,244,242,.07);' : ''}">
+        <div class="row" style="margin:0; gap:8px;"><span class="dot" style="background:var(--green)"></span><span class="t grow" style="font-size:14px;">${name}</span><span class="s" style="margin:0; font-size:11px;">${guests}</span></div>
+        ${ubar('CPU', cores, +cpu)}${ubar('Memory', memDetail, +mem)}</div>`;
     }).join('');
   });
 
-  document.querySelectorAll('[data-cast]').forEach(el => {
-    const tones = ['ember', 'ocean', 'violet', 'forest'];
-    el.innerHTML = el.dataset.cast.split(',').map((n, k) => `
-      <div style="width:72px; text-align:center;">
-        <div class="art" data-art="${tones[k]}" style="width:64px;height:64px;border-radius:99px;margin:0 auto;"></div>
-        <div style="font-size:12px; font-weight:600; margin-top:6px; line-height:1.2;">${n}</div>
-      </div>`).join('');
+  // Proxmox's node cards: three rings and the node's own verbs under them.
+  document.querySelectorAll('[data-nodecards]').forEach(el => {
+    el.innerHTML = el.dataset.nodecards.trim().split(';').map((n) => {
+      const [name, up, guests, cpu, cores, mem, memDetail, disk, diskDetail] = n.trim().split('|');
+      const gauge = (label, pct, detail) => `<div style="flex:1; text-align:center;">${ring(+pct)}<div class="s" style="color:var(--subtext); font-weight:700; margin-top:8px;">${label}</div><div class="s" style="font-size:11.5px; margin-top:1px;">${detail}</div></div>`;
+      return `<div class="card" style="margin-bottom:12px;">
+        <div class="t" style="font-size:17px;">${name}</div>
+        <div class="s" style="margin-top:3px;"><span style="color:var(--green); font-weight:700;">● Online</span> · ${up}</div>
+        <div class="s" style="margin-top:2px; color:var(--subtext);">${guests}</div>
+        <div style="display:flex; gap:8px; margin-top:16px;">${gauge('CPU', cpu, cores)}${gauge('Memory', mem, memDetail)}${gauge('Root disk', disk, diskDetail)}</div>
+        <div style="display:flex; justify-content:flex-end; gap:8px; margin-top:16px;"><span class="btn">Logs</span><span class="btn">Reboot</span><span class="btn danger">Shut down</span></div>
+      </div>`;
+    }).join('');
+  });
+
+  // Portainer's container rows: a cube tinted by state, the image and how long, and the state on a chip.
+  document.querySelectorAll('[data-containers]').forEach(el => {
+    el.innerHTML = el.dataset.containers.trim().split(';').map((c, k) => {
+      const [name, line, state, tone] = c.trim().split('|');
+      return `<div class="row" style="margin:0; padding:10px 0; ${k ? 'border-top:1px solid rgba(245,244,242,.07);' : ''}">
+        <span class="tile" style="color:${tone}">${icon('cube')}</span>
+        <div class="grow"><div class="t" style="font-size:13.5px">${name}</div><div class="s">${line}</div></div>
+        <span class="chip" style="color:${tone}"><span class="dot" style="background:${tone}; width:7px; height:7px"></span> ${state}</span></div>`;
+    }).join('');
+  });
+
+  // Log lines: when, how loud, where from, and what it said — monospaced, newest first.
+  document.querySelectorAll('[data-logs]').forEach(el => {
+    const tone = { error: 'var(--red)', warn: 'var(--peach)', info: 'var(--accent)' };
+    el.innerHTML = el.dataset.logs.trim().split(';').map((l) => {
+      const [time, level, stream, line] = l.trim().split('|');
+      return `<div class="log" style="border-left-color:${tone[level]}">
+        <div class="meta"><span class="time">${time}</span><span class="lvl" style="color:${tone[level]}">${level.toUpperCase()}</span><span class="stream">${stream}</span></div>
+        <div class="line">${line}</div></div>`;
+    }).join('');
   });
 
   document.querySelectorAll('[data-devices]').forEach(el => {
@@ -388,29 +446,6 @@
         <span class="icon-tile" style="color:${tone || 'var(--muted)'}">${icon(ic)}</span>
         <div class="grow"><div class="t">${name}</div><div class="s">${state}</div></div>${control}</div>`;
     }).join('');
-  });
-
-  document.querySelectorAll('[data-streams]').forEach(el => {
-    el.innerHTML = el.dataset.streams.trim().split(';').map((s, k) => {
-      const [art, title, sub, who, dev, pct, mode, tone] = s.trim().split('|');
-      return `<div class="card" style="padding:0; overflow:hidden;">
-        <div class="art" data-art="${art}" style="height:86px;"><div class="shade"></div>
-          <div class="on-art" style="position:absolute; left:14px; bottom:10px;"><div class="display" style="font-size:20px;">${title}</div><div style="font-size:12.5px; color:rgba(255,255,255,.82)">${sub}</div></div>
-          <span class="chip" style="position:absolute; right:10px; top:10px; background:rgba(14,14,16,.72); color:${tone};">${mode}</span></div>
-        <div style="padding:10px 14px 12px;"><div class="row"><span class="icon-tile" style="width:28px;height:28px;border-radius:99px;font-size:14px;color:var(--subtext)">${icon('person')}</span><div class="grow"><div class="t" style="font-size:13.5px">${who} <span class="muted" style="font-weight:500">· ${dev}</span></div></div><span class="s" style="margin:0">${pct}%</span></div>
-        <div class="bar"><i style="width:${pct}%"></i></div></div></div>`;
-    }).join('');
-  });
-
-  document.querySelectorAll('[data-queue]').forEach(el => {
-    el.innerHTML = '<div class="card" style="padding:0">' + el.dataset.queue.trim().split(';').map((q, k) => {
-      const [name, sub, pct, state] = q.trim().split('|');
-      const tone = state === 'Downloading' ? 'var(--accent)' : state === 'Paused' ? 'var(--peach)' : 'var(--muted)';
-      return `<div style="padding:12px 14px; ${k ? 'border-top:1px solid rgba(245,244,242,.07);' : ''}">
-        <div class="row"><div class="grow"><div class="t" style="font-size:13.5px">${name}</div><div class="s">${sub} · <span style="color:${tone}; font-weight:700">${state}${+pct ? ' ' + pct + '%' : ''}</span></div></div>
-        <span class="round" style="width:32px;height:32px;font-size:15px;background:var(--surface-high)">${icon(state === 'Paused' ? 'play' : 'pause')}</span></div>
-        <div class="bar"><i style="width:${pct}%"></i></div></div>`;
-    }).join('') + '</div>';
   });
 
   document.querySelectorAll('[data-disks]').forEach(el => {
@@ -435,19 +470,6 @@
       return (title ? `<div style="color:var(--subtext); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; margin:14px 0 4px;">${title}</div>` : '') + items;
     }).join('');
   });
-
-  document.querySelectorAll('[data-tvrow]').forEach(el => {
-    el.innerHTML = el.dataset.tvrow.split(',').map((t, k) => {
-      const [art, name, sub, pct] = t.split(':');
-      return `<div style="width:248px; flex:none;">
-        <div class="art" data-art="${art}" style="height:140px; border-radius:14px; ${k === 0 ? 'outline:4px solid var(--accent); outline-offset:3px;' : ''}">
-          ${+pct ? `<div style="position:absolute;left:10px;right:10px;bottom:10px;height:5px;border-radius:3px;background:rgba(255,255,255,.3)"><i style="display:block;height:100%;width:${pct}%;background:var(--accent);border-radius:3px"></i></div>` : ''}</div>
-        <div style="margin-top:10px; font-weight:600; font-size:17px;">${name}</div><div class="muted" style="font-size:14px;">${sub}</div></div>`;
-    }).join('');
-  });
-
-  let seed = 1;
-  document.querySelectorAll('[data-art]').forEach(el => { el.style.background = artCss(el.dataset.art, seed++); });
 
   document.querySelectorAll('img[data-logo]').forEach(img => { img.src = '../../assets/icon.png'; });
 
